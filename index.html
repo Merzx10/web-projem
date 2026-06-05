@@ -1,0 +1,1591 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.site { font-family: var(--font-sans); background: #1A3A6B; color: #E8DCC8; min-height: 620px; border-radius: var(--border-radius-lg); overflow: hidden; }
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 28px; border-bottom: 0.5px solid rgba(232,220,200,0.15); background: #152F5A; position: sticky; top: 0; z-index: 100; }
+.logo { font-size: 19px; font-weight: 500; letter-spacing: 2px; color: #E8DCC8; cursor: pointer; flex-shrink: 0; }
+.logo span { color: #C9A96E; }
+.nav-center { display: flex; align-items: center; gap: 2px; }
+.nav-btn { font-size: 12px; color: rgba(232,220,200,0.6); background: transparent; border: none; padding: 7px 12px; border-radius: 6px; cursor: pointer; letter-spacing: 0.5px; transition: all 0.15s; white-space: nowrap; }
+.nav-btn:hover { color: #E8DCC8; background: rgba(232,220,200,0.08); }
+.nav-btn.active { color: #C9A96E; background: rgba(201,169,110,0.12); }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-search { display: flex; align-items: center; gap: 7px; background: rgba(232,220,200,0.07); border: 0.5px solid rgba(232,220,200,0.18); border-radius: 18px; padding: 6px 14px; }
+.nav-search input { background: transparent; border: none; outline: none; color: #E8DCC8; font-size: 12px; width: 120px; }
+.nav-search input::placeholder { color: rgba(232,220,200,0.35); }
+.breadcrumb { display: flex; align-items: center; gap: 6px; padding: 12px 28px; background: rgba(21,47,90,0.5); border-bottom: 0.5px solid rgba(232,220,200,0.08); flex-wrap: wrap; }
+.bc-item { font-size: 12px; color: rgba(232,220,200,0.45); cursor: pointer; transition: color 0.15s; }
+.bc-item:hover { color: #C9A96E; }
+.bc-item.current { color: rgba(232,220,200,0.8); cursor: default; }
+.bc-sep { font-size: 11px; color: rgba(232,220,200,0.25); }
+.back-btn { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(232,220,200,0.5); background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.15); border-radius: 6px; padding: 6px 12px; cursor: pointer; transition: all 0.15s; margin-right: 8px; }
+.back-btn:hover { color: #C9A96E; border-color: rgba(201,169,110,0.4); }
+.page { display: none; animation: fadeIn 0.2s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.page-header { padding: 32px 28px 20px; }
+.page-title { font-size: 26px; font-weight: 500; color: #F0E8D8; margin-bottom: 6px; }
+.page-sub { font-size: 13px; color: rgba(232,220,200,0.45); }
+.section-title { font-size: 12px; letter-spacing: 2px; color: rgba(232,220,200,0.45); text-transform: uppercase; }
+.see-all-btn { font-size: 12px; color: #C9A96E; background: none; border: none; cursor: pointer; }
+.sh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.btn-gold { background: #C9A96E; color: #152F5A; border: none; padding: 10px 22px; border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-gold:hover { opacity: 0.88; }
+.btn-outline { background: transparent; color: #E8DCC8; border: 0.5px solid rgba(232,220,200,0.35); padding: 10px 22px; border-radius: 4px; font-size: 13px; cursor: pointer; }
+.btn-outline:hover { background: rgba(232,220,200,0.07); }
+.hero { padding: 56px 28px 44px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.hero-tag { font-size: 10px; letter-spacing: 3px; color: #C9A96E; text-transform: uppercase; margin-bottom: 14px; }
+.hero-title { font-size: 36px; font-weight: 500; line-height: 1.2; color: #F0E8D8; margin-bottom: 14px; }
+.hero-title span { color: #C9A96E; }
+.hero-sub { font-size: 13px; color: rgba(232,220,200,0.6); line-height: 1.7; margin-bottom: 24px; max-width: 340px; }
+.hero-btns { display: flex; gap: 10px; }
+.stat-card { background: rgba(21,47,90,0.7); border: 0.5px solid rgba(232,220,200,0.18); border-radius: 10px; padding: 14px 18px; text-align: center; }
+.stat-num { font-size: 20px; font-weight: 500; color: #C9A96E; }
+.stat-lbl { font-size: 10px; color: rgba(232,220,200,0.45); margin-top: 3px; letter-spacing: 0.5px; }
+.home-brands { padding: 24px 28px 18px; background: #152F5A; }
+.brand-chip { background: rgba(232,220,200,0.07); border: 0.5px solid rgba(232,220,200,0.15); border-radius: 6px; padding: 8px 14px; font-size: 12px; color: rgba(232,220,200,0.7); cursor: pointer; transition: all 0.15s; }
+.brand-chip:hover { background: rgba(201,169,110,0.15); border-color: #C9A96E; color: #C9A96E; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.home-featured { padding: 24px 28px 32px; }
+.cards3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 14px; }
+.mcard { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.12); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.18s; position: relative; overflow: hidden; }
+.mcard:hover { border-color: rgba(201,169,110,0.55); transform: translateY(-2px); }
+.mcard-brand { font-size: 9px; letter-spacing: 2px; color: #C9A96E; text-transform: uppercase; margin-bottom: 5px; }
+.mcard-name { font-size: 14px; font-weight: 500; color: #F0E8D8; margin-bottom: 3px; }
+.mcard-year { font-size: 11px; color: rgba(232,220,200,0.38); margin-bottom: 13px; }
+.specs-row { display: flex; gap: 14px; }
+.sv { font-size: 13px; font-weight: 500; color: #E8DCC8; }
+.sk { font-size: 9px; color: rgba(232,220,200,0.38); margin-top: 2px; letter-spacing: 0.5px; }
+.ci { position: absolute; right: 12px; bottom: 10px; font-size: 28px; opacity: 0.06; }
+.filter-bar { display: flex; gap: 7px; padding: 16px 28px; background: #152F5A; flex-wrap: wrap; border-bottom: 0.5px solid rgba(232,220,200,0.08); }
+.fb { font-size: 12px; padding: 6px 13px; border-radius: 18px; border: 0.5px solid rgba(232,220,200,0.18); background: transparent; color: rgba(232,220,200,0.55); cursor: pointer; transition: all 0.15s; }
+.fb:hover, .fb.active { background: rgba(201,169,110,0.14); border-color: #C9A96E; color: #C9A96E; }
+.brands-grid4 { padding: 22px 28px; display: grid; grid-template-columns: repeat(4,1fr); gap: 13px; }
+.bcard { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.1); border-radius: 10px; padding: 18px 14px; cursor: pointer; transition: all 0.18s; text-align: center; }
+.bcard:hover { border-color: rgba(201,169,110,0.45); transform: translateY(-2px); }
+.bcard-flag { font-size: 26px; margin-bottom: 9px; }
+.bcard-name { font-size: 13px; font-weight: 500; color: #E8DCC8; margin-bottom: 3px; }
+.bcard-count { font-size: 11px; color: rgba(232,220,200,0.38); }
+.bcard-origin { font-size: 9px; color: #C9A96E; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+.brand-detail-header { padding: 32px 28px 24px; background: #152F5A; display: flex; align-items: center; gap: 20px; border-bottom: 0.5px solid rgba(232,220,200,0.1); }
+.brand-flag-big { font-size: 48px; }
+.brand-detail-info h2 { font-size: 24px; font-weight: 500; color: #F0E8D8; margin-bottom: 4px; }
+.brand-detail-info p { font-size: 13px; color: rgba(232,220,200,0.45); }
+.brand-detail-models { padding: 24px 28px; }
+.toolbar { display: flex; align-items: center; gap: 10px; padding: 16px 28px; background: #152F5A; border-bottom: 0.5px solid rgba(232,220,200,0.08); flex-wrap: wrap; }
+.sbox { display: flex; align-items: center; gap: 7px; background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.16); border-radius: 7px; padding: 8px 12px; flex: 1; min-width: 180px; }
+.sbox input { background: transparent; border: none; outline: none; color: #E8DCC8; font-size: 12px; width: 100%; }
+.sbox input::placeholder { color: rgba(232,220,200,0.32); }
+.sel { background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.16); border-radius: 7px; padding: 8px 12px; color: rgba(232,220,200,0.65); font-size: 12px; outline: none; cursor: pointer; }
+.models-grid { padding: 22px 28px; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.model-card { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.1); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.18s; }
+.model-card:hover { border-color: rgba(201,169,110,0.5); transform: translateY(-2px); }
+.model-detail-hero { padding: 32px 28px 28px; background: #152F5A; border-bottom: 0.5px solid rgba(232,220,200,0.1); display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.mdh-left h2 { font-size: 28px; font-weight: 500; color: #F0E8D8; margin-bottom: 5px; }
+.mdh-left .mdbrand { font-size: 12px; letter-spacing: 2px; color: #C9A96E; text-transform: uppercase; margin-bottom: 6px; }
+.mdh-left .mdyear { font-size: 13px; color: rgba(232,220,200,0.4); }
+.cat-badge { font-size: 11px; padding: 5px 12px; border-radius: 4px; background: rgba(201,169,110,0.15); color: #C9A96E; border: 0.5px solid rgba(201,169,110,0.3); }
+.specs-detail { padding: 24px 28px; }
+.specs-title { font-size: 12px; letter-spacing: 2px; color: rgba(232,220,200,0.4); text-transform: uppercase; margin-bottom: 18px; }
+.specs-table { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 0.5px solid rgba(232,220,200,0.1); border-radius: 10px; overflow: hidden; }
+.spec-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 0.5px solid rgba(232,220,200,0.07); }
+.spec-row:nth-child(odd) { background: rgba(21,47,90,0.4); }
+.spec-k { font-size: 12px; color: rgba(232,220,200,0.45); }
+.spec-v { font-size: 13px; font-weight: 500; color: #E8DCC8; }
+.similar-section { padding: 0 28px 32px; }
+.compare-wrap { padding: 24px 28px; }
+.cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+.cmp-slot { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.12); border-radius: 12px; padding: 22px; }
+.cmp-slot-title { font-size: 10px; letter-spacing: 2px; color: rgba(232,220,200,0.35); text-transform: uppercase; margin-bottom: 14px; }
+.cmp-sel { width: 100%; background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.18); border-radius: 7px; padding: 9px 12px; color: #E8DCC8; font-size: 12px; outline: none; margin-bottom: 14px; }
+.cmp-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 0.5px solid rgba(232,220,200,0.07); }
+.cmp-lbl { font-size: 12px; color: rgba(232,220,200,0.4); }
+.cmp-val { font-size: 12px; font-weight: 500; color: #E8DCC8; }
+.cmp-val.win { color: #7EC99A; }
+.cmp-bar-wrap { margin-top: 6px; background: rgba(232,220,200,0.08); border-radius: 3px; height: 4px; }
+.cmp-bar { height: 4px; border-radius: 3px; background: #C9A96E; transition: width 0.5s; }
+.winner-box { background: rgba(201,169,110,0.09); border: 0.5px solid rgba(201,169,110,0.28); border-radius: 10px; padding: 16px 22px; text-align: center; }
+.winner-lbl { font-size: 10px; letter-spacing: 2px; color: rgba(232,220,200,0.38); text-transform: uppercase; margin-bottom: 6px; }
+.winner-name { font-size: 17px; font-weight: 500; color: #C9A96E; }
+.news-wrap { padding: 24px 28px; display: grid; grid-template-columns: 2fr 1fr; gap: 18px; }
+.news-big { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.1); border-radius: 12px; overflow: hidden; cursor: pointer; margin-bottom: 16px; transition: border-color 0.18s; }
+.news-big:hover { border-color: rgba(201,169,110,0.4); }
+.news-img { height: 160px; background: #0D2045; display: flex; align-items: center; justify-content: center; }
+.news-body { padding: 18px; }
+.ncat { font-size: 9px; letter-spacing: 2px; color: #C9A96E; text-transform: uppercase; margin-bottom: 7px; }
+.ntitle { font-size: 15px; font-weight: 500; color: #F0E8D8; line-height: 1.4; margin-bottom: 6px; }
+.ndate { font-size: 11px; color: rgba(232,220,200,0.32); }
+.news-sm { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.08); border-radius: 9px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
+.news-sm:hover { border-color: rgba(201,169,110,0.35); }
+.news-sm-title { font-size: 12px; font-weight: 500; color: #E8DCC8; margin-bottom: 5px; line-height: 1.4; }
+.news-sm-date { font-size: 10px; color: rgba(232,220,200,0.3); }
+.empty { padding: 32px; text-align: center; color: rgba(232,220,200,0.35); font-size: 13px; }
+.pagination { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 28px 28px; }
+.pg-btn { background: rgba(232,220,200,0.07); border: 0.5px solid rgba(232,220,200,0.15); border-radius: 6px; padding: 7px 14px; font-size: 12px; color: rgba(232,220,200,0.6); cursor: pointer; transition: all 0.15s; }
+.pg-btn:hover, .pg-btn.active { background: rgba(201,169,110,0.15); border-color: #C9A96E; color: #C9A96E; }
+.pg-btn:disabled { opacity: 0.3; cursor: default; }
+
+
+/* Compare searchable dropdown */
+.cmp-search-wrap { position: relative; margin-bottom: 14px; }
+.cmp-search-box {
+  width: 100%; background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.18);
+  border-radius: 7px; padding: 10px 14px; color: #E8DCC8; font-size: 13px;
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  transition: border-color 0.15s; user-select: none;
+}
+.cmp-search-box:hover { border-color: rgba(201,169,110,0.4); }
+.cmp-selected-label { color: rgba(232,220,200,0.6); font-size: 13px; }
+.cmp-selected-label.chosen { color: #E8DCC8; }
+.cmp-arrow { font-size: 11px; color: rgba(232,220,200,0.4); }
+.cmp-dropdown {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 200;
+  background: #0D2045; border: 0.5px solid rgba(232,220,200,0.2); border-radius: 9px;
+  overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+.cmp-dd-search { padding: 10px; border-bottom: 0.5px solid rgba(232,220,200,0.1); }
+.cmp-dd-search input {
+  width: 100%; background: rgba(232,220,200,0.07); border: 0.5px solid rgba(232,220,200,0.15);
+  border-radius: 6px; padding: 8px 12px; color: #E8DCC8; font-size: 12px; outline: none;
+}
+.cmp-dd-search input::placeholder { color: rgba(232,220,200,0.35); }
+.cmp-dd-list { max-height: 260px; overflow-y: auto; }
+.cmp-dd-group { padding: 6px 12px 2px; font-size: 9px; letter-spacing: 2px; color: #C9A96E; text-transform: uppercase; }
+.cmp-dd-item {
+  padding: 9px 16px; font-size: 12px; color: rgba(232,220,200,0.7); cursor: pointer;
+  transition: background 0.12s; display: flex; justify-content: space-between; align-items: center;
+}
+.cmp-dd-item:hover { background: rgba(201,169,110,0.12); color: #E8DCC8; }
+.cmp-dd-item.selected { background: rgba(201,169,110,0.15); color: #C9A96E; }
+.cmp-dd-item .cmp-dd-hp { font-size: 10px; color: rgba(232,220,200,0.35); }
+.cmp-dd-empty { padding: 18px; text-align: center; font-size: 12px; color: rgba(232,220,200,0.3); }
+
+/* ===== ADMIN PANEL STYLES ===== */
+.admin-login-overlay {
+  position: fixed; inset: 0; background: rgba(10,20,40,0.92); z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px); animation: fadeIn 0.2s ease;
+}
+.admin-login-box {
+  background: #152F5A; border: 0.5px solid rgba(201,169,110,0.3);
+  border-radius: 14px; padding: 40px 36px; width: 360px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+.admin-login-logo { text-align: center; margin-bottom: 28px; }
+.admin-login-logo .lock-icon { font-size: 36px; margin-bottom: 10px; }
+.admin-login-logo h2 { font-size: 20px; font-weight: 500; color: #F0E8D8; margin-bottom: 4px; }
+.admin-login-logo p { font-size: 12px; color: rgba(232,220,200,0.4); }
+.admin-input-group { margin-bottom: 16px; }
+.admin-input-group label { display: block; font-size: 11px; letter-spacing: 1px; color: rgba(232,220,200,0.5); text-transform: uppercase; margin-bottom: 7px; }
+.admin-input-group input {
+  width: 100%; background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.2);
+  border-radius: 8px; padding: 11px 14px; color: #E8DCC8; font-size: 13px; outline: none;
+  transition: border-color 0.15s;
+}
+.admin-input-group input:focus { border-color: #C9A96E; }
+.admin-login-err { font-size: 12px; color: #e07070; margin-bottom: 14px; text-align: center; display: none; }
+.admin-login-btn {
+  width: 100%; background: #C9A96E; color: #152F5A; border: none; padding: 12px;
+  border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; letter-spacing: 0.5px;
+  transition: opacity 0.15s;
+}
+.admin-login-btn:hover { opacity: 0.88; }
+.admin-login-close {
+  margin-top: 14px; width: 100%; background: transparent; color: rgba(232,220,200,0.4);
+  border: 0.5px solid rgba(232,220,200,0.15); padding: 10px; border-radius: 8px;
+  font-size: 12px; cursor: pointer; transition: all 0.15s;
+}
+.admin-login-close:hover { color: #E8DCC8; border-color: rgba(232,220,200,0.3); }
+
+/* Admin Panel */
+.admin-panel {
+  position: fixed; inset: 0; background: #0D2045; z-index: 999;
+  display: none; flex-direction: column; animation: fadeIn 0.2s ease;
+  overflow: hidden;
+}
+.admin-panel.open { display: flex; }
+.admin-top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px; background: #152F5A; border-bottom: 0.5px solid rgba(232,220,200,0.12);
+  flex-shrink: 0;
+}
+.admin-top-bar .admin-title { font-size: 16px; font-weight: 500; color: #F0E8D8; letter-spacing: 1px; }
+.admin-top-bar .admin-title span { color: #C9A96E; }
+.admin-close-btn {
+  display: flex; align-items: center; gap: 7px; background: rgba(232,220,200,0.07);
+  border: 0.5px solid rgba(232,220,200,0.2); border-radius: 7px; padding: 7px 14px;
+  color: rgba(232,220,200,0.6); font-size: 12px; cursor: pointer; transition: all 0.15s;
+}
+.admin-close-btn:hover { color: #E8DCC8; border-color: rgba(232,220,200,0.4); }
+.admin-body { display: flex; flex: 1; overflow: hidden; }
+.admin-sidebar {
+  width: 220px; background: #152F5A; border-right: 0.5px solid rgba(232,220,200,0.1);
+  padding: 20px 14px; flex-shrink: 0; overflow-y: auto;
+}
+.admin-sidebar-title { font-size: 9px; letter-spacing: 2px; color: rgba(232,220,200,0.3); text-transform: uppercase; margin-bottom: 12px; padding: 0 8px; }
+.admin-nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px;
+  font-size: 13px; color: rgba(232,220,200,0.6); cursor: pointer; transition: all 0.15s; margin-bottom: 3px;
+}
+.admin-nav-item:hover { background: rgba(232,220,200,0.07); color: #E8DCC8; }
+.admin-nav-item.active { background: rgba(201,169,110,0.14); color: #C9A96E; }
+.admin-nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.admin-stats-mini { margin-top: 24px; padding-top: 18px; border-top: 0.5px solid rgba(232,220,200,0.08); }
+.admin-stat-mini { padding: 10px 12px; margin-bottom: 8px; background: rgba(232,220,200,0.04); border-radius: 8px; }
+.admin-stat-mini .asn { font-size: 20px; font-weight: 500; color: #C9A96E; }
+.admin-stat-mini .ask { font-size: 10px; color: rgba(232,220,200,0.35); margin-top: 2px; }
+.admin-content { flex: 1; overflow-y: auto; padding: 28px; }
+.admin-section { display: none; }
+.admin-section.active { display: block; animation: fadeIn 0.18s ease; }
+.admin-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.admin-section-header h2 { font-size: 20px; font-weight: 500; color: #F0E8D8; }
+.admin-section-header p { font-size: 12px; color: rgba(232,220,200,0.4); margin-top: 3px; }
+
+/* Admin Table */
+.admin-table-wrap { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.1); border-radius: 12px; overflow: hidden; }
+.admin-table-toolbar { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 0.5px solid rgba(232,220,200,0.08); flex-wrap: wrap; }
+.admin-search { display: flex; align-items: center; gap: 8px; background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.15); border-radius: 7px; padding: 8px 12px; flex: 1; min-width: 180px; }
+.admin-search input { background: transparent; border: none; outline: none; color: #E8DCC8; font-size: 12px; width: 100%; }
+.admin-search input::placeholder { color: rgba(232,220,200,0.3); }
+.admin-filter-sel { background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.15); border-radius: 7px; padding: 8px 12px; color: rgba(232,220,200,0.65); font-size: 12px; outline: none; cursor: pointer; }
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(232,220,200,0.35); padding: 12px 18px; text-align: left; border-bottom: 0.5px solid rgba(232,220,200,0.08); background: rgba(21,47,90,0.4); }
+.admin-table td { padding: 12px 18px; font-size: 12px; color: rgba(232,220,200,0.75); border-bottom: 0.5px solid rgba(232,220,200,0.05); }
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-table tr:hover td { background: rgba(232,220,200,0.03); }
+.admin-table td .td-brand { font-size: 9px; letter-spacing: 1px; color: #C9A96E; text-transform: uppercase; }
+.admin-table td .td-name { font-size: 13px; font-weight: 500; color: #F0E8D8; }
+.admin-table td .cat-tag { font-size: 10px; padding: 3px 9px; border-radius: 4px; background: rgba(201,169,110,0.12); color: #C9A96E; border: 0.5px solid rgba(201,169,110,0.25); }
+.tbl-edit-btn { background: rgba(232,220,200,0.07); border: 0.5px solid rgba(232,220,200,0.15); border-radius: 5px; padding: 5px 11px; font-size: 11px; color: rgba(232,220,200,0.6); cursor: pointer; transition: all 0.15s; margin-right: 5px; }
+.tbl-edit-btn:hover { color: #C9A96E; border-color: rgba(201,169,110,0.4); background: rgba(201,169,110,0.1); }
+.tbl-del-btn { background: rgba(220,80,80,0.08); border: 0.5px solid rgba(220,80,80,0.2); border-radius: 5px; padding: 5px 11px; font-size: 11px; color: rgba(220,80,80,0.7); cursor: pointer; transition: all 0.15s; }
+.tbl-del-btn:hover { background: rgba(220,80,80,0.18); color: #e07070; }
+
+/* Modal */
+.admin-modal-overlay {
+  position: fixed; inset: 0; background: rgba(10,20,40,0.88); z-index: 1100;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); animation: fadeIn 0.15s ease;
+}
+.admin-modal {
+  background: #152F5A; border: 0.5px solid rgba(201,169,110,0.25); border-radius: 14px;
+  padding: 32px; width: 540px; max-width: 95vw; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+}
+.admin-modal h3 { font-size: 18px; font-weight: 500; color: #F0E8D8; margin-bottom: 22px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1/-1; }
+.form-group label { font-size: 10px; letter-spacing: 1px; color: rgba(232,220,200,0.45); text-transform: uppercase; }
+.form-group input, .form-group select {
+  background: rgba(232,220,200,0.06); border: 0.5px solid rgba(232,220,200,0.18);
+  border-radius: 7px; padding: 10px 13px; color: #E8DCC8; font-size: 12px; outline: none;
+  transition: border-color 0.15s;
+}
+.form-group input:focus, .form-group select:focus { border-color: #C9A96E; }
+.form-group select option { background: #152F5A; }
+.modal-actions { display: flex; gap: 10px; margin-top: 22px; justify-content: flex-end; }
+.modal-save-btn { background: #C9A96E; color: #152F5A; border: none; padding: 10px 22px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+.modal-save-btn:hover { opacity: 0.88; }
+.modal-cancel-btn { background: transparent; color: rgba(232,220,200,0.55); border: 0.5px solid rgba(232,220,200,0.2); padding: 10px 22px; border-radius: 7px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.modal-cancel-btn:hover { color: #E8DCC8; border-color: rgba(232,220,200,0.35); }
+
+/* Confirm delete */
+.confirm-box { text-align: center; padding: 10px; }
+.confirm-box .confirm-icon { font-size: 40px; margin-bottom: 14px; }
+.confirm-box h3 { font-size: 17px; color: #F0E8D8; margin-bottom: 8px; }
+.confirm-box p { font-size: 13px; color: rgba(232,220,200,0.45); margin-bottom: 22px; line-height: 1.5; }
+.modal-del-btn { background: rgba(220,80,80,0.15); color: #e07070; border: 0.5px solid rgba(220,80,80,0.3); padding: 10px 22px; border-radius: 7px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.modal-del-btn:hover { background: rgba(220,80,80,0.25); }
+
+/* Dashboard overview cards */
+.dash-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
+.dash-card { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.1); border-radius: 12px; padding: 20px 18px; }
+.dash-card-num { font-size: 28px; font-weight: 500; color: #C9A96E; }
+.dash-card-lbl { font-size: 11px; color: rgba(232,220,200,0.38); margin-top: 4px; letter-spacing: 0.5px; }
+.dash-card-icon { font-size: 24px; margin-bottom: 12px; }
+.recent-activity { background: #152F5A; border: 0.5px solid rgba(232,220,200,0.1); border-radius: 12px; padding: 20px; }
+.recent-activity h3 { font-size: 13px; letter-spacing: 1px; color: rgba(232,220,200,0.4); text-transform: uppercase; margin-bottom: 16px; }
+.activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid rgba(232,220,200,0.06); }
+.activity-item:last-child { border-bottom: none; }
+.activity-dot { width: 8px; height: 8px; border-radius: 50%; background: #C9A96E; margin-top: 4px; flex-shrink: 0; }
+.activity-dot.del { background: #e07070; }
+.activity-dot.upd { background: #7EC99A; }
+.activity-text { font-size: 12px; color: rgba(232,220,200,0.65); line-height: 1.5; }
+.activity-time { font-size: 10px; color: rgba(232,220,200,0.28); margin-top: 2px; }
+.table-count-bar { padding: 10px 18px; font-size: 11px; color: rgba(232,220,200,0.35); border-bottom: 0.5px solid rgba(232,220,200,0.06); }
+.toast-msg {
+  position: fixed; bottom: 24px; right: 24px; background: #1a3a1a;
+  border: 0.5px solid rgba(126,201,154,0.4); color: #7EC99A;
+  padding: 12px 20px; border-radius: 8px; font-size: 13px; z-index: 1200;
+  display: none; animation: fadeIn 0.2s ease;
+}
+.toast-msg.err { background: #3a1a1a; border-color: rgba(220,80,80,0.4); color: #e07070; }
+</style>
+
+<div class="site">
+<nav class="nav">
+  <div class="logo" onclick="go('home')">MOTO<span>MERT</span></div>
+  <div class="nav-center">
+    <button class="nav-btn active" id="nb-home" onclick="go('home')">Ana Sayfa</button>
+    <button class="nav-btn" id="nb-brands" onclick="go('brands')">Markalar</button>
+    <button class="nav-btn" id="nb-models" onclick="go('models')">Modeller</button>
+    <button class="nav-btn" id="nb-compare" onclick="go('compare')">Karşılaştır</button>
+    <button class="nav-btn" id="nb-news" onclick="go('news')">Haberler</button>
+  </div>
+  <div class="nav-right">
+    <div class="nav-search">
+      <i class="ti ti-search" style="font-size:13px;color:rgba(232,220,200,0.38);" aria-hidden="true"></i>
+      <input placeholder="Ara..." id="gsearch" oninput="globalSearch(this.value)" />
+    </div>
+    <button onclick="openAdminLogin()" style="display:flex;align-items:center;gap:6px;background:rgba(201,169,110,0.12);border:0.5px solid rgba(201,169,110,0.35);border-radius:7px;padding:7px 13px;color:#C9A96E;font-size:12px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='rgba(201,169,110,0.22)'" onmouseout="this.style.background='rgba(201,169,110,0.12)'">
+      <span style="font-size:14px;">⚙</span> Admin
+    </button>
+  </div>
+</nav>
+<div class="breadcrumb" id="breadcrumb" style="display:none;"></div>
+
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div>
+      <div class="hero-tag">Her marka · Her model</div>
+      <h1 class="hero-title">Motosiklet<br>dünyasını <span>keşfet</span></h1>
+      <p class="hero-sub">Binlerce motosiklet modeli, teknik özellikler, karşılaştırmalar ve daha fazlası tek bir platformda.</p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="go('models')">Modelleri Keşfet</button>
+        <button class="btn-outline" onclick="go('compare')">Karşılaştır</button>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
+      <div style="display:flex;gap:10px;">
+        <div class="stat-card"><div class="stat-num" id="stat-brands">—</div><div class="stat-lbl">Marka</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-models">—</div><div class="stat-lbl">Model</div></div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div class="stat-card" style="flex:1;"><div class="stat-num">26</div><div class="stat-lbl">Ülke</div></div>
+        <div class="stat-card" style="flex:1;"><div class="stat-num" id="stat-cats">—</div><div class="stat-lbl">Kategori</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="home-brands">
+    <div class="sh"><span class="section-title">Popüler Markalar</span><button class="see-all-btn" onclick="go('brands')">Tümünü Gör →</button></div>
+    <div class="chips" id="home-brand-chips"></div>
+  </div>
+  <div class="home-featured">
+    <div class="sh"><span class="section-title">Öne Çıkan Modeller</span><button class="see-all-btn" onclick="go('models')">Tümünü Gör →</button></div>
+    <div class="cards3" id="home-featured"></div>
+  </div>
+</div>
+
+<div class="page" id="page-brands">
+  <div class="page-header"><div class="page-title">Markalar</div><div class="page-sub" id="brands-sub"></div></div>
+  <div class="filter-bar" id="brands-filter"></div>
+  <div class="brands-grid4" id="brands-grid"></div>
+</div>
+
+<div class="page" id="page-brand-detail">
+  <div class="brand-detail-header" id="bdh"></div>
+  <div class="brand-detail-models">
+    <div class="sh"><span class="section-title" id="bd-count"></span></div>
+    <div class="models-grid" id="bd-models"></div>
+  </div>
+</div>
+
+<div class="page" id="page-models">
+  <div class="page-header"><div class="page-title">Modeller</div><div class="page-sub" id="models-sub"></div></div>
+  <div class="toolbar">
+    <div class="sbox"><i class="ti ti-search" style="font-size:13px;color:rgba(232,220,200,0.35);" aria-hidden="true"></i><input placeholder="Model veya marka ara..." id="msearch" oninput="renderModels(1)" /></div>
+    <select class="sel" id="mcat" onchange="renderModels(1)"><option value="">Tüm Kategoriler</option></select>
+    <select class="sel" id="mbrand-filter" onchange="renderModels(1)"><option value="">Tüm Markalar</option></select>
+    <select class="sel" id="msort" onchange="renderModels(1)">
+      <option value="name">Ada göre</option>
+      <option value="power">Güce göre ↓</option>
+      <option value="cc">Motor hacmi ↓</option>
+      <option value="weight">Ağırlık ↑</option>
+    </select>
+  </div>
+  <div class="models-grid" id="models-grid"></div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<div class="page" id="page-model-detail">
+  <div id="model-detail-content"></div>
+</div>
+
+<div class="page" id="page-compare">
+  <div class="page-header"><div class="page-title">Karşılaştır</div><div class="page-sub">İki modeli yan yana karşılaştır</div></div>
+  <div class="compare-wrap">
+    <div class="cmp-grid">
+      <div class="cmp-slot">
+        <div class="cmp-slot-title">1. Motosiklet</div>
+        <div class="cmp-search-wrap" id="cmp1-wrap">
+          <div class="cmp-search-box" onclick="toggleCmpDropdown('cmp1')">
+            <span class="cmp-selected-label" id="cmp1-label">Model seç...</span>
+            <span class="cmp-arrow">▾</span>
+          </div>
+          <div class="cmp-dropdown" id="cmp1-dropdown" style="display:none;">
+            <div class="cmp-dd-search"><input placeholder="Ara..." id="cmp1-search" oninput="filterCmpList('cmp1')" onclick="event.stopPropagation()" /></div>
+            <div class="cmp-dd-list" id="cmp1-list"></div>
+          </div>
+        </div>
+        <input type="hidden" id="cmp1" />
+        <div id="cmp1-data"></div>
+      </div>
+      <div class="cmp-slot">
+        <div class="cmp-slot-title">2. Motosiklet</div>
+        <div class="cmp-search-wrap" id="cmp2-wrap">
+          <div class="cmp-search-box" onclick="toggleCmpDropdown('cmp2')">
+            <span class="cmp-selected-label" id="cmp2-label">Model seç...</span>
+            <span class="cmp-arrow">▾</span>
+          </div>
+          <div class="cmp-dropdown" id="cmp2-dropdown" style="display:none;">
+            <div class="cmp-dd-search"><input placeholder="Ara..." id="cmp2-search" oninput="filterCmpList('cmp2')" onclick="event.stopPropagation()" /></div>
+            <div class="cmp-dd-list" id="cmp2-list"></div>
+          </div>
+        </div>
+        <input type="hidden" id="cmp2" />
+        <div id="cmp2-data"></div>
+      </div>
+    </div>
+    <div id="cmp-winner"></div>
+  </div>
+</div>
+
+<div class="page" id="page-news">
+  <div class="page-header"><div class="page-title">Haberler</div><div class="page-sub">Motosiklet dünyasından son gelişmeler</div></div>
+  <div class="news-wrap"><div id="news-main"></div><div id="news-side"></div></div>
+</div>
+</div>
+
+<!-- ADMIN LOGIN OVERLAY -->
+<div class="admin-login-overlay" id="adminLoginOverlay" style="display:none;">
+  <div class="admin-login-box">
+    <div class="admin-login-logo">
+      <div class="lock-icon">🔐</div>
+      <h2>Admin Girişi</h2>
+      <p>MOTOMERT Yönetim Paneli</p>
+    </div>
+    <div class="admin-input-group">
+      <label>Kullanıcı Adı</label>
+      <input type="text" id="adminUser" placeholder="admin" autocomplete="off" onkeydown="if(event.key==='Enter')doAdminLogin()" />
+    </div>
+    <div class="admin-input-group">
+      <label>Şifre</label>
+      <input type="password" id="adminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doAdminLogin()" />
+    </div>
+    <div class="admin-login-err" id="adminLoginErr">❌ Kullanıcı adı veya şifre hatalı.</div>
+    <button class="admin-login-btn" onclick="doAdminLogin()">Giriş Yap</button>
+    <button class="admin-login-close" onclick="closeAdminLogin()">İptal</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-top-bar">
+    <div class="admin-title">MOTO<span>MERT</span> — Yönetim Paneli</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:11px;color:rgba(232,220,200,0.35);">👤 admin</span>
+      <button class="admin-close-btn" onclick="closeAdminPanel()">✕ Çıkış</button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-title">Menü</div>
+      <div class="admin-nav-item active" onclick="adminNav('dashboard')"><span class="nav-icon">📊</span> Dashboard</div>
+      <div class="admin-nav-item" onclick="adminNav('motors')"><span class="nav-icon">🏍️</span> Motorlar</div>
+      <div class="admin-nav-item" onclick="adminNav('brands')"><span class="nav-icon">🏷️</span> Markalar</div>
+      <div class="admin-stats-mini">
+        <div class="admin-sidebar-title">İstatistikler</div>
+        <div class="admin-stat-mini"><div class="asn" id="sb-mcount">—</div><div class="ask">Toplam Motor</div></div>
+        <div class="admin-stat-mini"><div class="asn" id="sb-bcount">—</div><div class="ask">Toplam Marka</div></div>
+      </div>
+    </div>
+    <div class="admin-content">
+      <!-- DASHBOARD -->
+      <div class="admin-section active" id="sec-dashboard">
+        <div class="admin-section-header">
+          <div><h2>Dashboard</h2><p>Genel özet ve son aktiviteler</p></div>
+          <button onclick="resetToDefaults()" style="background:rgba(220,80,80,0.1);border:0.5px solid rgba(220,80,80,0.25);color:rgba(220,80,80,0.7);padding:8px 14px;border-radius:7px;font-size:11px;cursor:pointer;" title="Tüm değişiklikleri sıfırla">↩ Varsayılana Sıfırla</button>
+        </div>
+        <div class="dash-grid">
+          <div class="dash-card"><div class="dash-card-icon">🏍️</div><div class="dash-card-num" id="dc-motors">—</div><div class="dash-card-lbl">Toplam Motor</div></div>
+          <div class="dash-card"><div class="dash-card-icon">🏷️</div><div class="dash-card-num" id="dc-brands">—</div><div class="dash-card-lbl">Toplam Marka</div></div>
+          <div class="dash-card"><div class="dash-card-icon">📂</div><div class="dash-card-num" id="dc-cats">—</div><div class="dash-card-lbl">Kategori</div></div>
+          <div class="dash-card"><div class="dash-card-icon">⚡</div><div class="dash-card-num" id="dc-maxpow">—</div><div class="dash-card-lbl">Max. HP</div></div>
+        </div>
+        <div class="recent-activity">
+          <h3>Son Aktiviteler</h3>
+          <div id="activity-log">
+            <div class="activity-item"><div class="activity-dot"></div><div><div class="activity-text">Admin paneli açıldı.</div><div class="activity-time">Az önce</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOTORS -->
+      <div class="admin-section" id="sec-motors">
+        <div class="admin-section-header">
+          <div><h2>Motorlar</h2><p>Tüm motosiklet modellerini yönet</p></div>
+          <button class="btn-gold" onclick="openMotorModal(null)" style="padding:10px 18px;font-size:12px;">+ Yeni Motor Ekle</button>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-toolbar">
+            <div class="admin-search">🔍 <input placeholder="Motor veya marka ara..." id="adminMotorSearch" oninput="renderAdminMotors()" /></div>
+            <select class="admin-filter-sel" id="adminMotorCat" onchange="renderAdminMotors()"><option value="">Tüm Kategoriler</option></select>
+            <select class="admin-filter-sel" id="adminMotorBrand" onchange="renderAdminMotors()"><option value="">Tüm Markalar</option></select>
+          </div>
+          <div class="table-count-bar" id="adminMotorCount"></div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead><tr><th>Model</th><th>Kategori</th><th>Yıl</th><th>Güç (HP)</th><th>CC</th><th>Ağırlık</th><th>İşlemler</th></tr></thead>
+              <tbody id="adminMotorTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRANDS -->
+      <div class="admin-section" id="sec-brands">
+        <div class="admin-section-header">
+          <div><h2>Markalar</h2><p>Marka bilgilerini yönet</p></div>
+          <button class="btn-gold" onclick="openBrandModal(null)" style="padding:10px 18px;font-size:12px;">+ Yeni Marka Ekle</button>
+        </div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-toolbar">
+            <div class="admin-search">🔍 <input placeholder="Marka ara..." id="adminBrandSearch" oninput="renderAdminBrands()" /></div>
+            <select class="admin-filter-sel" id="adminBrandOrigin" onchange="renderAdminBrands()"><option value="">Tüm Ülkeler</option></select>
+          </div>
+          <div class="table-count-bar" id="adminBrandCount"></div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead><tr><th>Marka</th><th>Ülke</th><th>Kuruluş</th><th>Model Sayısı</th><th>İşlemler</th></tr></thead>
+              <tbody id="adminBrandTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOTOR MODAL -->
+<div class="admin-modal-overlay" id="motorModal" style="display:none;">
+  <div class="admin-modal">
+    <h3 id="motorModalTitle">Yeni Motor Ekle</h3>
+    <div class="form-grid">
+      <div class="form-group"><label>Marka</label><select id="mf-brand"></select></div>
+      <div class="form-group"><label>Model Adı</label><input id="mf-name" placeholder="CB 650R" /></div>
+      <div class="form-group"><label>Yıl</label><input id="mf-year" type="number" placeholder="2024" min="1900" max="2030" /></div>
+      <div class="form-group"><label>Kategori</label>
+        <select id="mf-cat"><option>Naked</option><option>Sport</option><option>Adventure</option><option>Touring</option><option>Cruiser</option><option>Retro</option><option>Maxi-Scooter</option><option>Off-Road</option><option>Supermoto</option><option>Enduro</option><option>Cafe Racer</option><option>Sport Touring</option></select>
+      </div>
+      <div class="form-group"><label>Güç (HP)</label><input id="mf-power" type="number" placeholder="100" min="0" /></div>
+      <div class="form-group"><label>Tork (Nm)</label><input id="mf-torque" type="number" placeholder="90" min="0" /></div>
+      <div class="form-group"><label>Motor Hacmi (cc)</label><input id="mf-cc" type="number" placeholder="649" min="0" /></div>
+      <div class="form-group"><label>Silindir Sayısı</label><input id="mf-cylinders" type="number" placeholder="4" min="0" /></div>
+      <div class="form-group"><label>Ağırlık (kg)</label><input id="mf-weight" type="number" placeholder="200" min="0" /></div>
+      <div class="form-group"><label>Max. Hız (km/h)</label><input id="mf-topspeed" type="number" placeholder="230" min="0" /></div>
+      <div class="form-group"><label>Soğutma</label><select id="mf-cooling"><option>Su</option><option>Hava</option><option>Hava/Yağ</option><option>Yağ</option></select></div>
+      <div class="form-group"><label>Şanzıman</label><input id="mf-transmission" placeholder="6 İleri" /></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel-btn" onclick="closeModal('motorModal')">İptal</button>
+      <button class="modal-save-btn" onclick="saveMotor()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND MODAL -->
+<div class="admin-modal-overlay" id="brandModal" style="display:none;">
+  <div class="admin-modal">
+    <h3 id="brandModalTitle">Yeni Marka Ekle</h3>
+    <div class="form-grid">
+      <div class="form-group"><label>Marka Adı</label><input id="bf-name" placeholder="Honda" /></div>
+      <div class="form-group"><label>Bayrak (Emoji)</label><input id="bf-flag" placeholder="🇯🇵" /></div>
+      <div class="form-group"><label>Ülke</label><input id="bf-country" placeholder="Japonya" /></div>
+      <div class="form-group"><label>Köken (origin key)</label><input id="bf-origin" placeholder="japonya" /></div>
+      <div class="form-group"><label>Kuruluş Yılı</label><input id="bf-founded" type="number" placeholder="1948" /></div>
+      <div class="form-group full"><label>Açıklama</label><input id="bf-desc" placeholder="Kısa marka açıklaması..." /></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel-btn" onclick="closeModal('brandModal')">İptal</button>
+      <button class="modal-save-btn" onclick="saveBrand()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="admin-modal-overlay" id="confirmModal" style="display:none;">
+  <div class="admin-modal" style="max-width:380px;">
+    <div class="confirm-box">
+      <div class="confirm-icon">🗑️</div>
+      <h3>Silmek istediğine emin misin?</h3>
+      <p id="confirmText">Bu kayıt kalıcı olarak silinecek.</p>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="modal-cancel-btn" onclick="closeModal('confirmModal')">İptal</button>
+        <button class="modal-del-btn" id="confirmDelBtn">Evet, Sil</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-msg" id="toastMsg"></div>
+
+<script>
+const BRANDS = [
+  {name:'Honda',origin:'japonya',flag:'🇯🇵',founded:1948,country:'Japonya',desc:'Dünyanın en büyük motosiklet üreticisi.'},
+  {name:'Yamaha',origin:'japonya',flag:'🇯🇵',founded:1955,country:'Japonya',desc:'Performans ve güvenilirliğiyle öne çıkan Japon devi.'},
+  {name:'Kawasaki',origin:'japonya',flag:'🇯🇵',founded:1954,country:'Japonya',desc:'Yüksek performanslı spor motosikletleriyle ünlü.'},
+  {name:'Suzuki',origin:'japonya',flag:'🇯🇵',founded:1952,country:'Japonya',desc:'Geniş ürün yelpazesiyle tanınan Japon markası.'},
+  {name:'Ducati',origin:'italya',flag:'🇮🇹',founded:1926,country:'İtalya',desc:'İtalyan tasarım ve performansının simgesi.'},
+  {name:'Aprilia',origin:'italya',flag:'🇮🇹',founded:1945,country:'İtalya',desc:'WorldSBK ve MotoGP şampiyonlukları olan İtalyan markası.'},
+  {name:'MV Agusta',origin:'italya',flag:'🇮🇹',founded:1945,country:'İtalya',desc:'Efsanevi İtalyan spor motosiklet üreticisi.'},
+  {name:'Moto Guzzi',origin:'italya',flag:'🇮🇹',founded:1921,country:'İtalya',desc:"İtalya'nın en köklü motosiklet markası."},
+  {name:'BMW Motorrad',origin:'almanya',flag:'🇩🇪',founded:1923,country:'Almanya',desc:'Premium Alman mühendisliğinin temsilcisi.'},
+  {name:'KTM',origin:'avusturya',flag:'🇦🇹',founded:1934,country:'Avusturya',desc:'Off-road ve naked segmentinin lideri.'},
+  {name:'Husqvarna',origin:'avusturya',flag:'🇦🇹',founded:1903,country:'Avusturya',desc:'KTM çatısı altındaki prestijli marka.'},
+  {name:'Triumph',origin:'ingiltere',flag:'🇬🇧',founded:1902,country:'İngiltere',desc:'Yüz yılı aşkın tarihe sahip İngiliz motosiklet markası.'},
+  {name:'Norton',origin:'ingiltere',flag:'🇬🇧',founded:1898,country:'İngiltere',desc:'İngiliz motosikletçiliğinin efsanevi ismi.'},
+  {name:'Royal Enfield',origin:'ingiltere',flag:'🇬🇧',founded:1901,country:'İngiltere',desc:'Retro tarz ve uzun ömürlülüğüyle bilinen marka.'},
+  {name:'Harley-Davidson',origin:'usa',flag:'🇺🇸',founded:1903,country:'ABD',desc:'Amerikan ruhunun ve özgürlüğünün simgesi.'},
+  {name:'Indian',origin:'usa',flag:'🇺🇸',founded:1901,country:'ABD',desc:"Amerika'nın en eski motosiklet markası."},
+  {name:'Zero',origin:'usa',flag:'🇺🇸',founded:2006,country:'ABD',desc:'Elektrikli motosiklet segmentinin öncüsü.'},
+  {name:'Energica',origin:'italya',flag:'🇮🇹',founded:2012,country:'İtalya',desc:'Yüksek performanslı elektrikli spor motosikletler.'},
+  {name:'CFMoto',origin:'cin',flag:'🇨🇳',founded:1989,country:'Çin',desc:'Hızla büyüyen Çinli motosiklet üreticisi.'},
+  {name:'Benelli',origin:'italya',flag:'🇮🇹',founded:1911,country:'İtalya',desc:'Köklü İtalyan markası, şimdilerde Çin ortaklıklı.'},
+  {name:'SYM',origin:'tayvan',flag:'🇹🇼',founded:1954,country:'Tayvan',desc:'Scooter ve maxi-scooter segmentinde güçlü.'},
+  {name:'Kymco',origin:'tayvan',flag:'🇹🇼',founded:1963,country:'Tayvan',desc:'Geniş ürün gamıyla öne çıkan Tayvanlı marka.'},
+  {name:'Bajaj',origin:'hindistan',flag:'🇮🇳',founded:1945,country:'Hindistan',desc:'KTM ile ortaklığıyla küresel güç olan Hintli marka.'},
+  {name:'Hero',origin:'hindistan',flag:'🇮🇳',founded:1984,country:'Hindistan',desc:'Dünyanın en çok satan motosiklet üreticilerinden.'},
+  {name:'Ural',origin:'rusya',flag:'🇷🇺',founded:1940,country:'Rusya',desc:'Sepetli motosikletleriyle efsaneleşen Rus markası.'},
+  {name:'Bimota',origin:'italya',flag:'🇮🇹',founded:1966,country:'İtalya',desc:'El yapımı egzotik motosikletlerin ustası.'},
+];
+
+const MODELS = [
+  // Honda
+  {brand:'Honda',name:'CB 650R',year:2024,cat:'Naked',power:95,cc:648,weight:202,torque:64,topSpeed:190,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'CBR 1000RR-R',year:2024,cat:'Sport',power:214,cc:999,weight:201,torque:113,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'Africa Twin',year:2024,cat:'Adventure',power:102,cc:1084,weight:226,torque:105,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'CB 500F',year:2024,cat:'Naked',power:47,cc:471,weight:189,torque:43,topSpeed:170,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'Gold Wing',year:2024,cat:'Touring',power:126,cc:1833,weight:367,torque:170,topSpeed:180,cylinders:6,cooling:'Su',transmission:'7 İleri DCT'},
+  {brand:'Honda',name:'CRF 1100L',year:2024,cat:'Adventure',power:102,cc:1084,weight:238,torque:105,topSpeed:200,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'CBR 650R',year:2024,cat:'Sport',power:95,cc:649,weight:208,torque:63,topSpeed:230,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'CB1000 Hornet',year:2024,cat:'Naked',power:152,cc:1000,weight:211,torque:104,topSpeed:250,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'Rebel 500',year:2024,cat:'Cruiser',power:47,cc:471,weight:191,torque:43,topSpeed:160,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'Forza 750',year:2024,cat:'Maxi-Scooter',power:59,cc:745,weight:235,torque:69,topSpeed:180,cylinders:2,cooling:'Su',transmission:'DCT'},
+  {brand:'Honda',name:'CBR 500R',year:2024,cat:'Sport',power:47,cc:471,weight:192,torque:43,topSpeed:180,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Honda',name:'NX500',year:2024,cat:'Adventure',power:47,cc:471,weight:196,torque:43,topSpeed:175,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  // Yamaha
+  {brand:'Yamaha',name:'MT-07',year:2024,cat:'Naked',power:73,cc:689,weight:184,torque:75,topSpeed:180,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'R1',year:2024,cat:'Sport',power:200,cc:998,weight:201,torque:113,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'Ténéré 700',year:2024,cat:'Adventure',power:73,cc:689,weight:204,torque:68,topSpeed:185,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'MT-09',year:2024,cat:'Naked',power:119,cc:889,weight:193,torque:93,topSpeed:220,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'R7',year:2024,cat:'Sport',power:73,cc:689,weight:188,torque:67,topSpeed:230,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'R3',year:2024,cat:'Sport',power:42,cc:321,weight:169,torque:29,topSpeed:180,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'MT-03',year:2024,cat:'Naked',power:42,cc:321,weight:168,torque:29,topSpeed:180,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'Tracer 9 GT+',year:2024,cat:'Touring',power:119,cc:890,weight:223,torque:93,topSpeed:230,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'R15M',year:2024,cat:'Sport',power:18,cc:155,weight:141,torque:14,topSpeed:145,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'MT-15',year:2024,cat:'Naked',power:18,cc:155,weight:141,torque:14,topSpeed:145,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'XSR 900',year:2024,cat:'Retro',power:119,cc:889,weight:193,torque:93,topSpeed:215,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Yamaha',name:'TMAX 560',year:2024,cat:'Maxi-Scooter',power:47,cc:562,weight:216,torque:55,topSpeed:160,cylinders:2,cooling:'Su',transmission:'Otomatik'},
+  // Kawasaki
+  {brand:'Kawasaki',name:'Z900',year:2024,cat:'Naked',power:125,cc:948,weight:212,torque:98,topSpeed:230,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'ZX-10R',year:2024,cat:'Sport',power:203,cc:998,weight:207,torque:114,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'Versys 1000',year:2024,cat:'Adventure',power:120,cc:1043,weight:255,torque:102,topSpeed:220,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'Ninja 400',year:2024,cat:'Sport',power:45,cc:399,weight:168,torque:38,topSpeed:175,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'W800',year:2024,cat:'Retro',power:47,cc:773,weight:226,torque:62,topSpeed:165,cylinders:2,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Kawasaki',name:'Z H2',year:2024,cat:'Naked',power:200,cc:998,weight:239,torque:137,topSpeed:280,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'Ninja 650',year:2024,cat:'Sport',power:68,cc:649,weight:193,torque:64,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'ZX-6R',year:2024,cat:'Sport',power:124,cc:636,weight:198,torque:69,topSpeed:260,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'Ninja H2',year:2024,cat:'Sport',power:231,cc:998,weight:238,torque:141,topSpeed:337,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'Ninja H2R',year:2024,cat:'Sport',power:310,cc:998,weight:216,torque:165,topSpeed:400,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'Z650',year:2024,cat:'Naked',power:68,cc:649,weight:188,torque:64,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Kawasaki',name:'ZX-4RR',year:2024,cat:'Sport',power:80,cc:399,weight:189,torque:39,topSpeed:225,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  // Suzuki
+  {brand:'Suzuki',name:'GSX-R 1000',year:2024,cat:'Sport',power:202,cc:999,weight:203,torque:117,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'V-Strom 1050',year:2024,cat:'Adventure',power:107,cc:1037,weight:232,torque:100,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'GSX-S 1000',year:2024,cat:'Naked',power:152,cc:999,weight:214,torque:106,topSpeed:250,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'Hayabusa',year:2024,cat:'Sport',power:190,cc:1340,weight:264,torque:150,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'Katana',year:2024,cat:'Naked',power:150,cc:999,weight:215,torque:106,topSpeed:250,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'GSX-8R',year:2024,cat:'Sport',power:83,cc:776,weight:205,torque:78,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'GSX-8S',year:2024,cat:'Naked',power:83,cc:776,weight:202,torque:78,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'SV650',year:2024,cat:'Naked',power:73,cc:645,weight:198,torque:64,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'V-Strom 650',year:2024,cat:'Adventure',power:71,cc:645,weight:216,torque:62,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Suzuki',name:'Burgman 400',year:2024,cat:'Maxi-Scooter',power:29,cc:400,weight:218,torque:35,topSpeed:145,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  // Ducati
+  {brand:'Ducati',name:'Panigale V4',year:2024,cat:'Sport',power:214,cc:1103,weight:198,torque:124,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'Monster',year:2024,cat:'Naked',power:111,cc:937,weight:188,torque:93,topSpeed:240,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'Streetfighter V4',year:2024,cat:'Naked',power:208,cc:1103,weight:197,torque:123,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'Diavel V4',year:2024,cat:'Cruiser',power:168,cc:1158,weight:223,torque:126,topSpeed:270,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'Hypermotard 950',year:2024,cat:'Supermoto',power:114,cc:937,weight:198,torque:96,topSpeed:230,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'DesertX',year:2024,cat:'Adventure',power:110,cc:937,weight:223,torque:92,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'SuperSport 950',year:2024,cat:'Sport',power:110,cc:937,weight:210,torque:93,topSpeed:250,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'Panigale V2',year:2024,cat:'Sport',power:155,cc:955,weight:200,torque:104,topSpeed:270,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'Multistrada V4',year:2024,cat:'Adventure',power:170,cc:1158,weight:245,torque:125,topSpeed:260,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Ducati',name:'Scrambler 800',year:2024,cat:'Retro',power:73,cc:803,weight:186,torque:66,topSpeed:185,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  // BMW Motorrad
+  {brand:'BMW Motorrad',name:'S 1000 RR',year:2024,cat:'Sport',power:210,cc:999,weight:197,torque:113,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'R 1250 GS',year:2024,cat:'Adventure',power:136,cc:1254,weight:249,torque:143,topSpeed:220,cylinders:2,cooling:'Hava/Yağ',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'M 1000 RR',year:2024,cat:'Sport',power:212,cc:999,weight:193,torque:113,topSpeed:306,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'G 310 R',year:2024,cat:'Naked',power:34,cc:313,weight:164,torque:28,topSpeed:145,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'G 310 GS',year:2024,cat:'Adventure',power:34,cc:313,weight:175,torque:28,topSpeed:143,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'F 800 GS',year:2024,cat:'Adventure',power:87,cc:895,weight:227,torque:91,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'S 1000 XR',year:2024,cat:'Adventure',power:170,cc:999,weight:227,torque:114,topSpeed:250,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'R 1300 GS',year:2024,cat:'Adventure',power:145,cc:1300,weight:237,torque:149,topSpeed:225,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'F 900 R',year:2024,cat:'Naked',power:105,cc:895,weight:211,torque:93,topSpeed:215,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'BMW Motorrad',name:'K 1600 GT',year:2024,cat:'Touring',power:160,cc:1649,weight:348,torque:175,topSpeed:250,cylinders:6,cooling:'Su',transmission:'6 İleri'},
+  // KTM
+  {brand:'KTM',name:'890 Duke',year:2024,cat:'Naked',power:121,cc:889,weight:169,torque:100,topSpeed:230,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'390 Duke',year:2024,cat:'Naked',power:45,cc:399,weight:165,torque:39,topSpeed:170,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'250 Duke',year:2024,cat:'Naked',power:31,cc:249,weight:162,torque:25,topSpeed:150,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'1390 Super Duke R',year:2024,cat:'Naked',power:190,cc:1350,weight:200,torque:145,topSpeed:290,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'390 Adventure',year:2024,cat:'Adventure',power:44,cc:399,weight:177,torque:37,topSpeed:165,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'990 Duke',year:2024,cat:'Naked',power:123,cc:947,weight:179,torque:103,topSpeed:240,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'1290 Super Duke R',year:2024,cat:'Naked',power:180,cc:1301,weight:189,torque:140,topSpeed:280,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'790 Adventure',year:2024,cat:'Adventure',power:95,cc:799,weight:189,torque:88,topSpeed:200,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'RC 390',year:2024,cat:'Sport',power:46,cc:373,weight:172,torque:37,topSpeed:170,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'KTM',name:'450 EXC-F',year:2024,cat:'Off-Road',power:63,cc:449,weight:111,torque:53,topSpeed:150,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  // Triumph
+  {brand:'Triumph',name:'Speed Triple 1200',year:2024,cat:'Naked',power:180,cc:1160,weight:198,torque:125,topSpeed:270,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Tiger 1200',year:2024,cat:'Adventure',power:150,cc:1160,weight:240,torque:130,topSpeed:220,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Street Triple RS',year:2024,cat:'Naked',power:130,cc:765,weight:188,torque:80,topSpeed:255,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Daytona 660',year:2024,cat:'Sport',power:95,cc:660,weight:201,torque:69,topSpeed:230,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Trident 660',year:2024,cat:'Naked',power:81,cc:660,weight:189,torque:64,topSpeed:210,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Tiger 900 GT',year:2024,cat:'Adventure',power:108,cc:888,weight:219,torque:90,topSpeed:210,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Rocket 3 R',year:2024,cat:'Cruiser',power:182,cc:2458,weight:291,torque:225,topSpeed:220,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Bonneville T120',year:2024,cat:'Retro',power:80,cc:1200,weight:224,torque:105,topSpeed:185,cylinders:2,cooling:'Hava/Yağ',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Scrambler 1200',year:2024,cat:'Retro',power:90,cc:1200,weight:207,torque:110,topSpeed:185,cylinders:2,cooling:'Hava/Yağ',transmission:'6 İleri'},
+  {brand:'Triumph',name:'Thruxton RS',year:2024,cat:'Retro',power:105,cc:1200,weight:205,torque:112,topSpeed:210,cylinders:2,cooling:'Hava/Yağ',transmission:'6 İleri'},
+  // Aprilia
+  {brand:'Aprilia',name:'RSV4',year:2024,cat:'Sport',power:217,cc:1099,weight:202,torque:125,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'Tuono V4',year:2024,cat:'Naked',power:175,cc:1077,weight:198,torque:121,topSpeed:270,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'RS 660',year:2024,cat:'Sport',power:100,cc:659,weight:183,torque:67,topSpeed:240,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'Tuono 660',year:2024,cat:'Naked',power:95,cc:659,weight:183,torque:67,topSpeed:230,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'Tuareg 660',year:2024,cat:'Adventure',power:80,cc:659,weight:204,torque:70,topSpeed:200,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'RS 457',year:2024,cat:'Sport',power:47,cc:457,weight:175,torque:43,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'RX 125',year:2024,cat:'Enduro',power:15,cc:125,weight:134,torque:11,topSpeed:120,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'Shiver 900',year:2024,cat:'Naked',power:95,cc:896,weight:193,torque:90,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'Dorsoduro 900',year:2024,cat:'Supermoto',power:95,cc:896,weight:182,torque:90,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Aprilia',name:'Caponord 1200',year:2024,cat:'Adventure',power:125,cc:1197,weight:241,torque:115,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  // Harley-Davidson
+  {brand:'Harley-Davidson',name:'Sportster S',year:2024,cat:'Cruiser',power:121,cc:1252,weight:228,torque:128,topSpeed:180,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Road Glide',year:2024,cat:'Touring',power:93,cc:1868,weight:388,torque:155,topSpeed:170,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Street Glide',year:2024,cat:'Touring',power:107,cc:1923,weight:368,torque:175,topSpeed:180,cylinders:2,cooling:'Yağ',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Road King Special',year:2024,cat:'Cruiser',power:104,cc:1868,weight:351,torque:168,topSpeed:175,cylinders:2,cooling:'Yağ',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Fat Boy 114',year:2024,cat:'Cruiser',power:95,cc:1868,weight:317,torque:155,topSpeed:170,cylinders:2,cooling:'Yağ',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Breakout 117',year:2024,cat:'Cruiser',power:103,cc:1923,weight:310,torque:168,topSpeed:180,cylinders:2,cooling:'Yağ',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Low Rider S',year:2024,cat:'Cruiser',power:103,cc:1923,weight:308,torque:168,topSpeed:180,cylinders:2,cooling:'Yağ',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Low Rider ST',year:2024,cat:'Sport Touring',power:103,cc:1923,weight:327,torque:168,topSpeed:185,cylinders:2,cooling:'Yağ',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Heritage Classic',year:2024,cat:'Cruiser',power:95,cc:1868,weight:330,torque:155,topSpeed:175,cylinders:2,cooling:'Yağ',transmission:'6 İleri'},
+  {brand:'Harley-Davidson',name:'Nightster Special',year:2024,cat:'Cruiser',power:91,cc:975,weight:225,torque:95,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  // Royal Enfield ← VİRGÜL EKLENDİ
+  {brand:'Royal Enfield',name:'Himalayan',year:2024,cat:'Adventure',power:40,cc:452,weight:196,torque:40,topSpeed:150,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Royal Enfield',name:'Classic 350',year:2024,cat:'Retro',power:20,cc:349,weight:195,torque:27,topSpeed:120,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Royal Enfield',name:'Meteor 350',year:2024,cat:'Cruiser',power:20,cc:349,weight:191,torque:27,topSpeed:120,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Royal Enfield',name:'Hunter 350',year:2024,cat:'Naked',power:20,cc:349,weight:181,torque:27,topSpeed:120,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Royal Enfield',name:'Bullet 350',year:2024,cat:'Retro',power:20,cc:349,weight:195,torque:27,topSpeed:120,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Royal Enfield',name:'Shotgun 650',year:2024,cat:'Cruiser',power:47,cc:648,weight:240,torque:52,topSpeed:170,cylinders:2,cooling:'Hava/Yağ',transmission:'6 İleri'},
+  {brand:'Royal Enfield',name:'Super Meteor 650',year:2024,cat:'Cruiser',power:47,cc:648,weight:241,torque:52,topSpeed:170,cylinders:2,cooling:'Hava/Yağ',transmission:'6 İleri'},
+  {brand:'Royal Enfield',name:'Continental GT 650',year:2024,cat:'Cafe Racer',power:47,cc:648,weight:214,torque:52,topSpeed:170,cylinders:2,cooling:'Hava/Yağ',transmission:'6 İleri'},
+  {brand:'Royal Enfield',name:'Scram 411',year:2024,cat:'Adventure',power:24,cc:411,weight:185,torque:32,topSpeed:130,cylinders:1,cooling:'Hava/Yağ',transmission:'5 İleri'},
+  {brand:'Royal Enfield',name:'Interceptor 650',year:2024,cat:'Retro',power:47,cc:648,weight:202,torque:52,topSpeed:170,cylinders:2,cooling:'Hava/Yağ',transmission:'6 İleri'},
+  // CFMoto ← VİRGÜL EKLENDİ
+  {brand:'CFMoto',name:'700CL-X',year:2024,cat:'Naked',power:70,cc:693,weight:189,torque:68,topSpeed:185,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'450SR',year:2024,cat:'Sport',power:50,cc:449,weight:168,torque:39,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'450NK',year:2024,cat:'Naked',power:50,cc:449,weight:165,torque:39,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'800MT',year:2024,cat:'Adventure',power:95,cc:799,weight:231,torque:87,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'675SR-R',year:2024,cat:'Sport',power:95,cc:675,weight:189,torque:70,topSpeed:230,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'675NK',year:2024,cat:'Naked',power:95,cc:675,weight:189,torque:70,topSpeed:230,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'250NK',year:2024,cat:'Naked',power:27,cc:249,weight:151,torque:22,topSpeed:140,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'300SR',year:2024,cat:'Sport',power:29,cc:292,weight:165,torque:25,topSpeed:150,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'650NK',year:2024,cat:'Naked',power:61,cc:649,weight:206,torque:56,topSpeed:180,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'650MT',year:2024,cat:'Adventure',power:61,cc:649,weight:218,torque:56,topSpeed:180,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'800NK',year:2024,cat:'Naked',power:100,cc:799,weight:186,torque:81,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'CFMoto',name:'1250TR-G',year:2024,cat:'Touring',power:140,cc:1279,weight:305,torque:120,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  // Energica ← VİRGÜL EKLENDİ
+  {brand:'Energica',name:'Ego+',year:2024,cat:'Sport',power:107,cc:0,weight:260,torque:200,topSpeed:240,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'Eva Ribelle',year:2024,cat:'Naked',power:145,cc:0,weight:270,torque:215,topSpeed:200,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'Experia',year:2024,cat:'Adventure',power:102,cc:0,weight:260,torque:115,topSpeed:180,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'EsseEsse9+',year:2024,cat:'Retro',power:109,cc:0,weight:256,torque:200,topSpeed:200,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'Eva EsseEsse9',year:2024,cat:'Retro',power:109,cc:0,weight:256,torque:200,topSpeed:200,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'Ego RS',year:2024,cat:'Sport',power:171,cc:0,weight:260,torque:222,topSpeed:240,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'Eva Ribelle RS',year:2024,cat:'Naked',power:171,cc:0,weight:270,torque:222,topSpeed:240,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'Experia Green Tourer',year:2024,cat:'Adventure',power:102,cc:0,weight:260,torque:115,topSpeed:180,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'EsseEsse9 RS',year:2024,cat:'Retro',power:171,cc:0,weight:256,torque:222,topSpeed:240,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  {brand:'Energica',name:'Ego Corsa Clienti',year:2024,cat:'Sport',power:171,cc:0,weight:258,torque:222,topSpeed:275,cylinders:0,cooling:'Su',transmission:'Tek kademe'},
+  // Zero ← VİRGÜL EKLENDİ
+  {brand:'Zero',name:'SR/F',year:2024,cat:'Naked',power:82,cc:0,weight:220,torque:190,topSpeed:200,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'SR',year:2024,cat:'Naked',power:74,cc:0,weight:223,torque:166,topSpeed:167,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'SR/S',year:2024,cat:'Sport Touring',power:110,cc:0,weight:234,torque:190,topSpeed:200,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'SR/X',year:2024,cat:'Adventure',power:100,cc:0,weight:247,torque:225,topSpeed:180,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'DS',year:2024,cat:'Dual Sport',power:46,cc:0,weight:187,torque:132,topSpeed:140,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'DSR',year:2024,cat:'Adventure',power:70,cc:0,weight:190,torque:170,topSpeed:163,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'DSR/X',year:2024,cat:'Adventure',power:100,cc:0,weight:247,torque:225,topSpeed:180,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'FX',year:2024,cat:'Supermoto',power:46,cc:0,weight:131,torque:106,topSpeed:137,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'FXE',year:2024,cat:'Supermoto',power:46,cc:0,weight:135,torque:106,topSpeed:137,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  {brand:'Zero',name:'XE',year:2024,cat:'Enduro',power:20,cc:0,weight:101,torque:65,topSpeed:85,cylinders:0,cooling:'Hava',transmission:'Tek kademe'},
+  // MV Agusta ← VİRGÜL EKLENDİ
+  {brand:'MV Agusta',name:'Brutale 1000 RR',year:2024,cat:'Naked',power:208,cc:998,weight:186,torque:116,topSpeed:302,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'Brutale 800 RR',year:2024,cat:'Naked',power:140,cc:798,weight:175,torque:87,topSpeed:244,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'Dragster RR',year:2024,cat:'Naked',power:140,cc:798,weight:175,torque:87,topSpeed:245,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'Rush 1000',year:2024,cat:'Naked',power:208,cc:998,weight:186,torque:116,topSpeed:300,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'F3 RR',year:2024,cat:'Sport',power:147,cc:798,weight:173,torque:88,topSpeed:240,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'F3 R',year:2024,cat:'Sport',power:147,cc:798,weight:173,torque:88,topSpeed:240,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'Superveloce 800',year:2024,cat:'Sport',power:147,cc:798,weight:173,torque:88,topSpeed:240,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'Turismo Veloce R',year:2024,cat:'Sport Touring',power:110,cc:798,weight:199,torque:83,topSpeed:230,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'Enduro Veloce',year:2024,cat:'Adventure',power:124,cc:931,weight:224,torque:102,topSpeed:230,cylinders:3,cooling:'Su',transmission:'6 İleri'},
+  {brand:'MV Agusta',name:'Brutale 1000',year:2024,cat:'Naked',power:208,cc:998,weight:186,torque:116,topSpeed:302,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  // Bimota ← VİRGÜL EKLENDİ
+  {brand:'Bimota',name:'Tesi H2',year:2024,cat:'Sport',power:238,cc:998,weight:215,torque:143,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bimota',name:'KB4',year:2024,cat:'Sport',power:142,cc:1043,weight:194,torque:111,topSpeed:250,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bimota',name:'KB4 RC',year:2024,cat:'Sport',power:142,cc:1043,weight:194,torque:111,topSpeed:250,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bimota',name:'KB998 Rimini',year:2024,cat:'Sport',power:200,cc:998,weight:194,torque:111,topSpeed:299,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bimota',name:'Tesi H2 TERA',year:2024,cat:'Adventure',power:200,cc:998,weight:245,torque:137,topSpeed:250,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bimota',name:'DBX',year:2024,cat:'Adventure',power:170,cc:1262,weight:229,torque:128,topSpeed:240,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bimota',name:'TESI 3D',year:2024,cat:'Sport',power:85,cc:803,weight:215,torque:88,topSpeed:220,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Bimota',name:'DB11',year:2024,cat:'Naked',power:162,cc:1198,weight:179,torque:132,topSpeed:270,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bimota',name:'SB8R',year:2024,cat:'Sport',power:135,cc:996,weight:177,torque:95,topSpeed:270,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bimota',name:'YB4 EI',year:2024,cat:'Sport',power:145,cc:749,weight:185,torque:82,topSpeed:260,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  // Moto Guzzi
+  {brand:'Moto Guzzi',name:'V7 Stone',year:2024,cat:'Retro',power:65,cc:853,weight:218,torque:73,topSpeed:180,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'V7 Special',year:2024,cat:'Retro',power:65,cc:853,weight:223,torque:73,topSpeed:180,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'V7 Corsa',year:2024,cat:'Retro',power:65,cc:853,weight:223,torque:73,topSpeed:180,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'V9 Bobber',year:2024,cat:'Cruiser',power:65,cc:853,weight:210,torque:73,topSpeed:175,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'V85 TT',year:2024,cat:'Adventure',power:80,cc:853,weight:230,torque:83,topSpeed:195,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'V85 TT Travel',year:2024,cat:'Adventure',power:80,cc:853,weight:243,torque:83,topSpeed:195,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'Stelvio',year:2024,cat:'Adventure',power:115,cc:1042,weight:246,torque:105,topSpeed:230,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'Mandello V100',year:2024,cat:'Sport Touring',power:115,cc:1042,weight:233,torque:105,topSpeed:230,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'Mandello V100 S',year:2024,cat:'Sport Touring',power:115,cc:1042,weight:233,torque:105,topSpeed:230,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Moto Guzzi',name:'California 1400',year:2024,cat:'Touring',power:96,cc:1380,weight:336,torque:125,topSpeed:185,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  // Norton
+  {brand:'Norton',name:'Commando 961',year:2024,cat:'Retro',power:76,cc:961,weight:230,torque:81,topSpeed:200,cylinders:2,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Norton',name:'V4SV',year:2024,cat:'Sport',power:185,cc:1200,weight:193,torque:125,topSpeed:290,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Norton',name:'V4CR',year:2024,cat:'Naked',power:185,cc:1200,weight:193,torque:125,topSpeed:280,cylinders:4,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Norton',name:'Dominador',year:2024,cat:'Retro',power:80,cc:961,weight:225,torque:82,topSpeed:205,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Norton',name:'Atlas Ranger',year:2024,cat:'Scrambler',power:84,cc:650,weight:178,torque:64,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Norton',name:'Atlas Nomad',year:2024,cat:'Scrambler',power:84,cc:650,weight:178,torque:64,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Norton',name:'Commando 961 Sport',year:2024,cat:'Retro',power:76,cc:961,weight:230,torque:81,topSpeed:200,cylinders:2,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Norton',name:'Commando 961 Cafe Racer',year:2024,cat:'Cafe Racer',power:76,cc:961,weight:230,torque:81,topSpeed:200,cylinders:2,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Norton',name:'Manx 30M',year:2024,cat:'Sport',power:78,cc:500,weight:142,torque:55,topSpeed:210,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Norton',name:'F1 Sport',year:2024,cat:'Sport',power:95,cc:588,weight:185,torque:75,topSpeed:230,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  // Benelli
+  {brand:'Benelli',name:'TNT 125',year:2024,cat:'Naked',power:12,cc:125,weight:124,torque:10,topSpeed:105,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Benelli',name:'BN 125',year:2024,cat:'Naked',power:11,cc:125,weight:142,torque:10,topSpeed:105,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Benelli',name:'TNT 25N',year:2024,cat:'Naked',power:25,cc:249,weight:157,torque:21,topSpeed:140,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Benelli',name:'302S',year:2024,cat:'Naked',power:38,cc:300,weight:204,torque:26,topSpeed:160,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Benelli',name:'502C',year:2024,cat:'Cruiser',power:47,cc:500,weight:217,torque:46,topSpeed:170,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Benelli',name:'Leoncino 500',year:2024,cat:'Retro',power:47,cc:500,weight:207,torque:46,topSpeed:170,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Benelli',name:'Leoncino 800',year:2024,cat:'Retro',power:76,cc:754,weight:222,torque:67,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Benelli',name:'TRK 502',year:2024,cat:'Adventure',power:47,cc:500,weight:235,torque:46,topSpeed:160,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Benelli',name:'TRK 702',year:2024,cat:'Adventure',power:70,cc:698,weight:235,torque:70,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Benelli',name:'Tornado 550',year:2024,cat:'Sport',power:56,cc:554,weight:198,torque:54,topSpeed:200,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  // SYM
+  {brand:'SYM',name:'Jet X 125',year:2024,cat:'Scooter',power:13,cc:125,weight:140,torque:12,topSpeed:105,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  {brand:'SYM',name:'Joymax Z+ 250',year:2024,cat:'Maxi-Scooter',power:26,cc:249,weight:184,torque:24,topSpeed:130,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  {brand:'SYM',name:'Joyride 300',year:2024,cat:'Maxi-Scooter',power:26,cc:278,weight:186,torque:26,topSpeed:135,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  {brand:'SYM',name:'Cruisym 300',year:2024,cat:'Maxi-Scooter',power:27,cc:278,weight:194,torque:27,topSpeed:140,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  {brand:'SYM',name:'Cruisym Alpha 300',year:2024,cat:'Maxi-Scooter',power:27,cc:278,weight:194,torque:27,topSpeed:140,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  {brand:'SYM',name:'Maxsym TL 508',year:2024,cat:'Maxi-Scooter',power:45,cc:508,weight:223,torque:50,topSpeed:170,cylinders:2,cooling:'Su',transmission:'Otomatik'},
+  {brand:'SYM',name:'Maxsym 400',year:2024,cat:'Maxi-Scooter',power:35,cc:399,weight:215,torque:39,topSpeed:150,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  {brand:'SYM',name:'NH-T 200',year:2024,cat:'Adventure',power:18,cc:183,weight:152,torque:16,topSpeed:120,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'SYM',name:'NH-X 125',year:2024,cat:'Naked',power:11,cc:125,weight:150,torque:10,topSpeed:100,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'SYM',name:'Wolf CR 300',year:2024,cat:'Cafe Racer',power:27,cc:278,weight:175,torque:25,topSpeed:135,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  // Bajaj
+  {brand:'Bajaj',name:'Pulsar NS125',year:2024,cat:'Naked',power:12,cc:124,weight:144,torque:11,topSpeed:105,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Bajaj',name:'Pulsar N160',year:2024,cat:'Naked',power:16,cc:164,weight:152,torque:15,topSpeed:120,cylinders:1,cooling:'Yağ',transmission:'5 İleri'},
+  {brand:'Bajaj',name:'Pulsar NS200',year:2024,cat:'Naked',power:24,cc:199,weight:159,torque:18,topSpeed:136,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bajaj',name:'Pulsar RS200',year:2024,cat:'Sport',power:24,cc:199,weight:166,torque:18,topSpeed:140,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bajaj',name:'Dominar 250',year:2024,cat:'Touring',power:27,cc:248,weight:180,torque:23,topSpeed:132,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bajaj',name:'Dominar 400',year:2024,cat:'Touring',power:40,cc:373,weight:193,torque:35,topSpeed:155,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Bajaj',name:'Avenger Street 160',year:2024,cat:'Cruiser',power:15,cc:160,weight:156,torque:14,topSpeed:115,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Bajaj',name:'Avenger Cruise 220',year:2024,cat:'Cruiser',power:19,cc:220,weight:163,torque:17,topSpeed:120,cylinders:1,cooling:'Yağ',transmission:'5 İleri'},
+  {brand:'Bajaj',name:'Pulsar N250',year:2024,cat:'Naked',power:24,cc:249,weight:162,torque:21,topSpeed:135,cylinders:1,cooling:'Yağ',transmission:'5 İleri'},
+  {brand:'Bajaj',name:'Freedom 125',year:2024,cat:'Commuter',power:9,cc:125,weight:149,torque:10,topSpeed:95,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  // Kymco
+  {brand:'Kymco',name:'Agility 125',year:2024,cat:'Scooter',power:10,cc:125,weight:131,torque:9,topSpeed:95,cylinders:1,cooling:'Hava',transmission:'Otomatik'},
+  {brand:'Kymco',name:'Agility City 125',year:2024,cat:'Scooter',power:11,cc:125,weight:132,torque:10,topSpeed:100,cylinders:1,cooling:'Hava',transmission:'Otomatik'},
+  {brand:'Kymco',name:'Like 125',year:2024,cat:'Scooter',power:11,cc:125,weight:124,torque:10,topSpeed:100,cylinders:1,cooling:'Hava',transmission:'Otomatik'},
+  {brand:'Kymco',name:'People S 125',year:2024,cat:'Scooter',power:11,cc:125,weight:130,torque:10,topSpeed:100,cylinders:1,cooling:'Hava',transmission:'Otomatik'},
+  {brand:'Kymco',name:'X-Town CT 300',year:2024,cat:'Maxi-Scooter',power:23,cc:276,weight:194,torque:24,topSpeed:130,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  {brand:'Kymco',name:'DT X360',year:2024,cat:'Maxi-Scooter',power:29,cc:321,weight:194,torque:30,topSpeed:145,cylinders:1,cooling:'Su',transmission:'Otomatik'},
+  {brand:'Kymco',name:'AK 550',year:2024,cat:'Maxi-Scooter',power:51,cc:550,weight:226,torque:52,topSpeed:180,cylinders:2,cooling:'Su',transmission:'Otomatik'},
+  {brand:'Kymco',name:'AK Premium',year:2024,cat:'Maxi-Scooter',power:51,cc:550,weight:226,torque:52,topSpeed:180,cylinders:2,cooling:'Su',transmission:'Otomatik'},
+  {brand:'Kymco',name:'CV3',year:2024,cat:'Scooter',power:51,cc:550,weight:282,torque:52,topSpeed:170,cylinders:2,cooling:'Su',transmission:'Otomatik'},
+  {brand:'Kymco',name:'Dink R 150',year:2024,cat:'Scooter',power:13,cc:150,weight:140,torque:12,topSpeed:110,cylinders:1,cooling:'Hava',transmission:'Otomatik'},
+  // Hero
+  {brand:'Hero',name:'Splendor Plus',year:2024,cat:'Commuter',power:8,cc:97,weight:112,torque:8,topSpeed:87,cylinders:1,cooling:'Hava',transmission:'4 İleri'},
+  {brand:'Hero',name:'HF Deluxe',year:2024,cat:'Commuter',power:8,cc:97,weight:110,torque:8,topSpeed:85,cylinders:1,cooling:'Hava',transmission:'4 İleri'},
+  {brand:'Hero',name:'Passion Plus',year:2024,cat:'Commuter',power:8,cc:97,weight:115,torque:8,topSpeed:90,cylinders:1,cooling:'Hava',transmission:'4 İleri'},
+  {brand:'Hero',name:'Glamour XTEC',year:2024,cat:'Commuter',power:10,cc:125,weight:122,torque:10,topSpeed:100,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Hero',name:'Super Splendor XTEC',year:2024,cat:'Commuter',power:11,cc:125,weight:123,torque:11,topSpeed:100,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Hero',name:'Xtreme 125R',year:2024,cat:'Naked',power:12,cc:125,weight:136,torque:11,topSpeed:110,cylinders:1,cooling:'Hava',transmission:'5 İleri'},
+  {brand:'Hero',name:'Xtreme 160R 4V',year:2024,cat:'Naked',power:16,cc:163,weight:145,torque:14,topSpeed:120,cylinders:1,cooling:'Yağ',transmission:'5 İleri'},
+  {brand:'Hero',name:'Xpulse 200 4V',year:2024,cat:'Adventure',power:19,cc:199,weight:159,torque:17,topSpeed:120,cylinders:1,cooling:'Yağ',transmission:'5 İleri'},
+  {brand:'Hero',name:'Karizma XMR',year:2024,cat:'Sport',power:25,cc:210,weight:163,torque:20,topSpeed:140,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Hero',name:'Mavrick 440',year:2024,cat:'Naked',power:27,cc:440,weight:191,torque:36,topSpeed:150,cylinders:1,cooling:'Yağ',transmission:'6 İleri'},
+  // Indian
+  {brand:'Indian',name:'Scout Bobber',year:2024,cat:'Cruiser',power:105,cc:1133,weight:252,torque:98,topSpeed:200,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Indian',name:'Scout Rogue',year:2024,cat:'Cruiser',power:95,cc:1133,weight:250,torque:97,topSpeed:190,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Indian',name:'Sport Scout',year:2024,cat:'Cruiser',power:105,cc:1250,weight:249,torque:109,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Indian',name:'Scout Sixty',year:2024,cat:'Cruiser',power:85,cc:999,weight:244,torque:88,topSpeed:180,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Indian',name:'Chief Dark Horse',year:2024,cat:'Cruiser',power:89,cc:1890,weight:304,torque:162,topSpeed:180,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Indian',name:'Chief Bobber Dark Horse',year:2024,cat:'Cruiser',power:89,cc:1890,weight:315,torque:162,topSpeed:180,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Indian',name:'Super Chief Limited',year:2024,cat:'Touring',power:89,cc:1890,weight:335,torque:162,topSpeed:180,cylinders:2,cooling:'Hava',transmission:'6 İleri'},
+  {brand:'Indian',name:'Challenger Dark Horse',year:2024,cat:'Touring',power:122,cc:1768,weight:381,torque:178,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Indian',name:'Pursuit Limited',year:2024,cat:'Touring',power:122,cc:1768,weight:416,torque:178,topSpeed:200,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Indian',name:'FTR Sport',year:2024,cat:'Naked',power:120,cc:1203,weight:233,torque:118,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  // Ural
+  {brand:'Ural',name:'Gear Up',year:2024,cat:'Sidecar',power:41,cc:749,weight:365,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'CT',year:2024,cat:'Sidecar',power:41,cc:749,weight:338,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'Patrol',year:2024,cat:'Sidecar',power:41,cc:749,weight:365,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'Ranger',year:2024,cat:'Sidecar',power:41,cc:749,weight:370,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'Sportsman',year:2024,cat:'Sidecar',power:41,cc:749,weight:370,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'Retro',year:2024,cat:'Retro',power:41,cc:749,weight:335,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'cT Sahara',year:2024,cat:'Sidecar',power:41,cc:749,weight:338,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'Gear Up Expedition',year:2024,cat:'Adventure',power:41,cc:749,weight:365,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'Gear Up Sahara',year:2024,cat:'Adventure',power:41,cc:749,weight:365,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  {brand:'Ural',name:'Gear Up Weekender',year:2024,cat:'Adventure',power:41,cc:749,weight:365,torque:57,topSpeed:120,cylinders:2,cooling:'Hava',transmission:'4 İleri + Geri'},
+  // Husqvarna
+  {brand:'Husqvarna',name:'Svartpilen 801',year:2024,cat:'Naked',power:105,cc:799,weight:181,torque:87,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'Svartpilen 401',year:2024,cat:'Naked',power:45,cc:399,weight:171,torque:39,topSpeed:170,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'Svartpilen 250',year:2024,cat:'Naked',power:31,cc:249,weight:165,torque:25,topSpeed:150,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'Vitpilen 801',year:2024,cat:'Naked',power:105,cc:799,weight:180,torque:87,topSpeed:220,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'Norden 901',year:2024,cat:'Adventure',power:105,cc:889,weight:220,torque:100,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'Norden 901 Expedition',year:2024,cat:'Adventure',power:105,cc:889,weight:223,torque:100,topSpeed:210,cylinders:2,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'701 Enduro',year:2024,cat:'Enduro',power:74,cc:693,weight:146,torque:73,topSpeed:190,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'701 Supermoto',year:2024,cat:'Supermoto',power:74,cc:693,weight:148,torque:73,topSpeed:200,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'FE 501',year:2024,cat:'Enduro',power:58,cc:511,weight:111,torque:50,topSpeed:160,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+  {brand:'Husqvarna',name:'FE 350',year:2024,cat:'Enduro',power:45,cc:350,weight:109,torque:37,topSpeed:150,cylinders:1,cooling:'Su',transmission:'6 İleri'},
+];
+
+const PAGE_SIZE = 12;
+const navHistory = [];
+let activePage = 'home';
+let brandFilterVal = 'all';
+let modelsPage = 1;
+let cmpInited = false;
+
+// ===== LOCALSTORAGE PERSISTENCE =====
+const LS_MODELS_KEY = 'motomert_models_v1';
+const LS_BRANDS_KEY = 'motomert_brands_v1';
+
+function loadData() {
+  try {
+    const savedModels = localStorage.getItem(LS_MODELS_KEY);
+    const savedBrands = localStorage.getItem(LS_BRANDS_KEY);
+    if (savedModels) {
+      const parsed = JSON.parse(savedModels);
+      MODELS.length = 0;
+      parsed.forEach(m => MODELS.push(m));
+    }
+    if (savedBrands) {
+      const parsed = JSON.parse(savedBrands);
+      BRANDS.length = 0;
+      parsed.forEach(b => BRANDS.push(b));
+    }
+  } catch(e) { console.warn('localStorage yüklenemedi:', e); }
+}
+
+function saveData() {
+  try {
+    localStorage.setItem(LS_MODELS_KEY, JSON.stringify(MODELS));
+    localStorage.setItem(LS_BRANDS_KEY, JSON.stringify(BRANDS));
+  } catch(e) { console.warn('localStorage kaydedilemedi:', e); }
+}
+
+loadData(); // Sayfa yüklenince kayıtlı veriyi yükle
+
+function getCats() { return [...new Set(MODELS.map(m=>m.cat))].sort(); }
+function getBrandNames() { return [...new Set(MODELS.map(m=>m.brand))].sort(); }
+
+function go(page, data) {
+  navHistory.push({page: activePage, data: window._pd});
+  _nav(page, data);
+}
+function goBack() {
+  if (!navHistory.length) return;
+  const prev = navHistory.pop();
+  _nav(prev.page, prev.data, true);
+}
+window._pd = null;
+
+function _nav(page, data, isBack) {
+  window._pd = data;
+  activePage = page;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  const nm = {home:'home',brands:'brands','brand-detail':'brands',models:'models','model-detail':'models',compare:'compare',news:'news'};
+  ['home','brands','models','compare','news'].forEach(id => {
+    const b = document.getElementById('nb-' + id);
+    if (b) b.classList.toggle('active', nm[page] === id);
+  });
+  updateBC(page, data);
+  if (page==='brands') renderBrands();
+  else if (page==='brand-detail') renderBrandDetail(data);
+  else if (page==='models') { modelsPage=1; renderModels(); }
+  else if (page==='model-detail') renderModelDetail(data);
+  else if (page==='compare') { cmpInited=false; initCompare(); }
+  else if (page==='news') renderNews();
+  else renderHome();
+  document.querySelector('.site').scrollTop = 0;
+}
+
+function updateBC(page, data) {
+  const bc = document.getElementById('breadcrumb');
+  const labels = {home:'Ana Sayfa',brands:'Markalar',models:'Modeller',compare:'Karşılaştır',news:'Haberler'};
+  if (page==='home') { bc.style.display='none'; return; }
+  bc.style.display = 'flex';
+  let items = [{label:'Ana Sayfa', page:'home'}];
+  if (page==='brand-detail') { items.push({label:'Markalar',page:'brands'}); items.push({label:data&&data.name||'',current:true}); }
+  else if (page==='model-detail') { items.push({label:'Modeller',page:'models'}); items.push({label:data?data.brand+' '+data.name:'',current:true}); }
+  else { items.push({label:labels[page]||page, current:true}); }
+  const back = navHistory.length > 0 ? `<button class="back-btn" onclick="goBack()"><i class="ti ti-arrow-left" aria-hidden="true"></i> Geri</button>` : '';
+  bc.innerHTML = back + items.map((it,i) => `${i>0?'<span class="bc-sep">›</span>':''}<span class="bc-item${it.current?' current':''}"${it.page?` onclick="go('${it.page}')"`:''}>${it.label}</span>`).join('');
+}
+
+function renderHome() {
+  document.getElementById('stat-brands').textContent = BRANDS.length;
+  document.getElementById('stat-models').textContent = MODELS.length;
+  document.getElementById('stat-cats').textContent = CATS.length;
+  const chips = document.getElementById('home-brand-chips');
+  chips.innerHTML = BRANDS.map(b => `<div class="brand-chip" onclick='go("brand-detail",${JSON.stringify(b)})'>${b.name}</div>`).join('');
+  const picks = MODELS.filter(m => ['CBR 1000RR-R','MT-09','Z H2','Panigale V4','R 1250 GS','RSV4'].includes(m.name));
+  document.getElementById('home-featured').innerHTML = picks.map(m => mcHTML(m)).join('');
+}
+
+function mcHTML(m) {
+  const key = JSON.stringify({brand:m.brand,name:m.name});
+  return `<div class="mcard" onclick='openModel(${key})'>
+    <div class="mcard-brand">${m.brand}</div>
+    <div class="mcard-name">${m.name}</div>
+    <div class="mcard-year">${m.year} · ${m.cat}</div>
+    <div class="specs-row">
+      <div><div class="sv">${m.power>0?m.power+' hp':'Elektrik'}</div><div class="sk">Güç</div></div>
+      <div><div class="sv">${m.cc>0?m.cc+' cc':'—'}</div><div class="sk">Motor</div></div>
+      <div><div class="sv">${m.weight} kg</div><div class="sk">Ağırlık</div></div>
+    </div>
+    <i class="ti ti-motorbike ci" aria-hidden="true"></i>
+  </div>`;
+}
+
+function openModel(key) {
+  const m = MODELS.find(x => x.brand===key.brand && x.name===key.name);
+  if (m) go('model-detail', m);
+}
+
+function renderBrands() {
+  const origins = [...new Set(BRANDS.map(b=>b.origin))];
+  const lbl = {japonya:'Japonya',italya:'İtalya',almanya:'Almanya',avusturya:'Avusturya',ingiltere:'İngiltere',usa:'ABD',cin:'Çin',tayvan:'Tayvan',hindistan:'Hindistan',rusya:'Rusya'};
+  document.getElementById('brands-filter').innerHTML =
+    `<button class="fb ${brandFilterVal==='all'?'active':''}" onclick="setBF(this,'all')">Tümü (${BRANDS.length})</button>` +
+    origins.map(o => `<button class="fb ${brandFilterVal===o?'active':''}" onclick="setBF(this,'${o}')">${lbl[o]||o} (${BRANDS.filter(b=>b.origin===o).length})</button>`).join('');
+  const list = brandFilterVal==='all' ? BRANDS : BRANDS.filter(b=>b.origin===brandFilterVal);
+  document.getElementById('brands-sub').textContent = list.length + ' marka listeleniyor';
+  document.getElementById('brands-grid').innerHTML = list.map(b => `
+    <div class="bcard" onclick='go("brand-detail",${JSON.stringify(b)})'>
+      <div class="bcard-flag">${b.flag}</div>
+      <div class="bcard-name">${b.name}</div>
+      <div class="bcard-count">${MODELS.filter(m=>m.brand===b.name).length} model</div>
+      <div class="bcard-origin">${b.country} · ${b.founded}</div>
+    </div>`).join('');
+}
+
+function setBF(btn, val) {
+  brandFilterVal = val;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBrands();
+}
+
+function renderBrandDetail(b) {
+  if (!b) return;
+  const models = MODELS.filter(m=>m.brand===b.name);
+  document.getElementById('bdh').innerHTML = `<div class="brand-flag-big">${b.flag}</div><div class="brand-detail-info"><h2>${b.name}</h2><p>${b.country} · ${b.founded}'den beri · ${b.desc}</p></div>`;
+  document.getElementById('bd-count').textContent = models.length + ' MODEL';
+  document.getElementById('bd-models').innerHTML = models.map(m=>mcHTML(m)).join('') || '<div class="empty">Model bulunamadı.</div>';
+}
+
+function renderModels() {
+  // Always rebuild filters dynamically
+  const mcatEl = document.getElementById('mcat');
+  const mbrandEl = document.getElementById('mbrand-filter');
+  const prevCat = mcatEl.value, prevBrand = mbrandEl.value;
+  mcatEl.innerHTML = '<option value="">Tüm Kategoriler</option>';
+  mbrandEl.innerHTML = '<option value="">Tüm Markalar</option>';
+  getCats().forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; mcatEl.appendChild(o); });
+  getBrandNames().forEach(b => { const o=document.createElement('option'); o.value=b; o.textContent=b; mbrandEl.appendChild(o); });
+  mcatEl.value = prevCat;
+  mbrandEl.value = prevBrand;
+  if (!document.createElement) {}
+  const q = (document.getElementById('msearch').value||'').toLowerCase();
+  const cat = document.getElementById('mcat').value;
+  const br = document.getElementById('mbrand-filter').value;
+  const sort = document.getElementById('msort').value;
+  let data = [...MODELS];
+  if (q) data = data.filter(m=>m.name.toLowerCase().includes(q)||m.brand.toLowerCase().includes(q)||m.cat.toLowerCase().includes(q));
+  if (cat) data = data.filter(m=>m.cat===cat);
+  if (br) data = data.filter(m=>m.brand===br);
+  if (sort==='power') data.sort((a,b)=>b.power-a.power);
+  else if (sort==='cc') data.sort((a,b)=>b.cc-a.cc);
+  else if (sort==='weight') data.sort((a,b)=>a.weight-b.weight);
+  else data.sort((a,b)=>a.name.localeCompare(b.name));
+  const total = data.length;
+  const pages = Math.ceil(total/PAGE_SIZE);
+  modelsPage = Math.min(modelsPage, pages||1);
+  const slice = data.slice((modelsPage-1)*PAGE_SIZE, modelsPage*PAGE_SIZE);
+  document.getElementById('models-sub').textContent = total + ' model · Sayfa ' + modelsPage + '/' + pages;
+  document.getElementById('models-grid').innerHTML = slice.length ? slice.map(m=>mcHTML(m)).join('') : '<div class="empty">Sonuç bulunamadı.</div>';
+  let pgHTML = '';
+  if (pages > 1) {
+    pgHTML += `<button class="pg-btn" onclick="modelsPage=${modelsPage-1};renderModels()" ${modelsPage===1?'disabled':''}>‹ Önceki</button>`;
+    const start = Math.max(1,modelsPage-2), end = Math.min(pages,modelsPage+2);
+    for (let i=start;i<=end;i++) pgHTML += `<button class="pg-btn ${i===modelsPage?'active':''}" onclick="modelsPage=${i};renderModels()">${i}</button>`;
+    pgHTML += `<button class="pg-btn" onclick="modelsPage=${modelsPage+1};renderModels()" ${modelsPage===pages?'disabled':''}>Sonraki ›</button>`;
+  }
+  document.getElementById('pagination').innerHTML = pgHTML;
+}
+
+function renderModelDetail(m) {
+  if (!m) return;
+  const similar = MODELS.filter(x=>x.cat===m.cat&&x.name!==m.name).slice(0,3);
+  document.getElementById('model-detail-content').innerHTML = `
+    <div class="model-detail-hero">
+      <div class="mdh-left"><div class="mdbrand">${m.brand}</div><h2>${m.name}</h2><div class="mdyear">${m.year} · ${m.cat}</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;">
+        <div class="cat-badge">${m.cat.toUpperCase()}</div>
+        <div style="text-align:right;"><div style="font-size:24px;font-weight:500;color:#C9A96E;">${m.power>0?m.power+' HP':'Elektrik'}</div><div style="font-size:10px;color:rgba(232,220,200,0.4);">Maks. Güç</div></div>
+      </div>
+    </div>
+    <div class="specs-detail">
+      <div class="specs-title">Teknik Özellikler</div>
+      <div class="specs-table">
+        <div class="spec-row"><span class="spec-k">Maksimum Güç</span><span class="spec-v">${m.power>0?m.power+' hp':'Elektrik motoru'}</span></div>
+        <div class="spec-row"><span class="spec-k">Maksimum Tork</span><span class="spec-v">${m.torque} Nm</span></div>
+        <div class="spec-row"><span class="spec-k">Motor Hacmi</span><span class="spec-v">${m.cc>0?m.cc+' cc':'—'}</span></div>
+        <div class="spec-row"><span class="spec-k">Silindir Sayısı</span><span class="spec-v">${m.cylinders>0?m.cylinders:'Elektrik'}</span></div>
+        <div class="spec-row"><span class="spec-k">Soğutma</span><span class="spec-v">${m.cooling}</span></div>
+        <div class="spec-row"><span class="spec-k">Şanzıman</span><span class="spec-v">${m.transmission}</span></div>
+        <div class="spec-row"><span class="spec-k">Ağırlık</span><span class="spec-v">${m.weight} kg</span></div>
+        <div class="spec-row"><span class="spec-k">Maksimum Hız</span><span class="spec-v">${m.topSpeed} km/h</span></div>
+      </div>
+    </div>
+    <div class="similar-section">
+      <div class="sh"><span class="section-title">Benzer Modeller (${m.cat})</span></div>
+      <div class="cards3">${similar.map(s=>mcHTML(s)).join('')}</div>
+    </div>`;
+}
+
+function initCompare() {
+  cmpInited = true;
+  buildCmpList('cmp1');
+  buildCmpList('cmp2');
+  // close dropdowns on outside click
+  document.addEventListener('click', function(e) {
+    ['cmp1','cmp2'].forEach(id => {
+      const wrap = document.getElementById(id+'-wrap');
+      if (wrap && !wrap.contains(e.target)) {
+        document.getElementById(id+'-dropdown').style.display = 'none';
+      }
+    });
+  });
+}
+
+function buildCmpList(id) {
+  const q = (document.getElementById(id+'-search')||{value:''}).value.toLowerCase();
+  const list = document.getElementById(id+'-list');
+  if (!list) return;
+  const brands = getBrandNames();
+  let html = '';
+  let count = 0;
+  brands.forEach(b => {
+    const models = MODELS.filter(m => m.brand === b && (
+      !q || m.name.toLowerCase().includes(q) || b.toLowerCase().includes(q)
+    ));
+    if (!models.length) return;
+    html += `<div class="cmp-dd-group">${b}</div>`;
+    models.forEach(m => {
+      const val = m.brand + '||' + m.name;
+      const curVal = document.getElementById(id).value;
+      html += `<div class="cmp-dd-item ${curVal===val?'selected':''}" onclick="selectCmp('${id}','${val}','${m.name}')">
+        <span>${m.name}</span><span class="cmp-dd-hp">${m.power>0?m.power+' HP':'⚡'}</span>
+      </div>`;
+      count++;
+    });
+  });
+  if (!count) html = '<div class="cmp-dd-empty">Sonuç bulunamadı</div>';
+  list.innerHTML = html;
+}
+
+function filterCmpList(id) { buildCmpList(id); }
+
+function toggleCmpDropdown(id) {
+  const dd = document.getElementById(id+'-dropdown');
+  const other = id === 'cmp1' ? 'cmp2' : 'cmp1';
+  document.getElementById(other+'-dropdown').style.display = 'none';
+  if (dd.style.display === 'none') {
+    dd.style.display = 'block';
+    document.getElementById(id+'-search').value = '';
+    buildCmpList(id);
+    setTimeout(() => document.getElementById(id+'-search').focus(), 50);
+  } else {
+    dd.style.display = 'none';
+  }
+}
+
+function selectCmp(id, val, label) {
+  document.getElementById(id).value = val;
+  const lbl = document.getElementById(id+'-label');
+  lbl.textContent = label;
+  lbl.classList.add('chosen');
+  document.getElementById(id+'-dropdown').style.display = 'none';
+  renderCompare();
+}
+
+function renderCompare() {
+  const get = id => { const v=document.getElementById(id).value; if(!v)return null; const[b,n]=v.split('||'); return MODELS.find(m=>m.brand===b&&m.name===n); };
+  const m1=get('cmp1'), m2=get('cmp2');
+  const specs=[{k:'Güç',p:'power',u:'hp',hi:true},{k:'Tork',p:'torque',u:'Nm',hi:true},{k:'Motor Hacmi',p:'cc',u:'cc',hi:true},{k:'Ağırlık',p:'weight',u:'kg',hi:false},{k:'Maks. Hız',p:'topSpeed',u:'km/h',hi:true}];
+  function slot(m,other,id) {
+    if (!m) { document.getElementById(id+'-data').innerHTML=''; return; }
+    const maxP = other ? Math.max(m.power,other.power)||1 : m.power||1;
+    document.getElementById(id+'-data').innerHTML = specs.map(s => {
+      const better = other && (s.hi ? m[s.p]>other[s.p] : m[s.p]<other[s.p]);
+      const pct = s.p==='power' ? Math.round((m[s.p]/(maxP||1))*100) : null;
+      return `<div class="cmp-row"><span class="cmp-lbl">${s.k}</span><span class="cmp-val ${better?'win':''}">${m[s.p]>0?m[s.p]+' '+s.u:'—'}</span></div>${pct!==null?`<div class="cmp-bar-wrap"><div class="cmp-bar" style="width:${pct}%"></div></div>`:''}`;
+    }).join('');
+  }
+  slot(m1,m2,'cmp1'); slot(m2,m1,'cmp2');
+  const wb = document.getElementById('cmp-winner');
+  if (m1&&m2) { const w=m1.power>=m2.power?m1:m2; wb.innerHTML=`<div class="winner-box"><div class="winner-lbl">⚡ Güç Lideri</div><div class="winner-name">${w.brand} ${w.name} — ${w.power} hp</div></div>`; }
+  else wb.innerHTML='';
+}
+
+function renderNews() {
+  const news=[
+    {cat:'Yeni Model',title:'Ducati Panigale V4 2025: Pist performansı karayoluna indi',date:'18 Mayıs 2025',big:true},
+    {cat:'Yarış',title:'MotoGP 2025 sezonu: Pecco Bagnaia şampiyonluk yarışında öne geçti',date:'15 Mayıs 2025',big:true},
+    {cat:'Test',title:'Honda CB750 Hornet: Orta sınıfın yeni standardı mı?',date:'12 Mayıs 2025'},
+    {cat:'Elektrik',title:"Zero SR/F ile 1000 km'lik Türkiye turu",date:'10 Mayıs 2025'},
+    {cat:'Rehber',title:'2025 model yılı en iyi naked motosikletler',date:'8 Mayıs 2025'},
+    {cat:'Duyuru',title:'KTM 890 Adventure R yenilendi: Daha hafif, daha güçlü',date:'5 Mayıs 2025'},
+    {cat:'Karşılaştırma',title:'BMW R 1250 GS vs Ducati Multistrada V4: Macera devi kim?',date:'2 Mayıs 2025'},
+  ];
+  document.getElementById('news-main').innerHTML = news.filter(n=>n.big).map(n=>`<div class="news-big"><div class="news-img"><i class="ti ti-motorbike" style="font-size:52px;color:rgba(232,220,200,0.1);" aria-hidden="true"></i></div><div class="news-body"><div class="ncat">${n.cat}</div><div class="ntitle">${n.title}</div><div class="ndate">${n.date}</div></div></div>`).join('');
+  document.getElementById('news-side').innerHTML = news.filter(n=>!n.big).map(n=>`<div class="news-sm"><div class="ncat" style="font-size:9px;margin-bottom:5px;">${n.cat}</div><div class="news-sm-title">${n.title}</div><div class="news-sm-date">${n.date}</div></div>`).join('');
+}
+
+function globalSearch(val) {
+  if (val.length > 1) { document.getElementById('msearch').value=val; go('models'); renderModels(); }
+}
+
+
+// ===== ADMIN PANEL LOGIC =====
+const ADMIN_CREDS = { user: 'admin', pass: 'motomert2024' };
+let adminEditMotorIdx = null;
+let adminEditBrandIdx = null;
+let activityLog = [{dot:'', text:'Admin paneli açıldı.', time:'Az önce'}];
+
+function openAdminLogin() {
+  document.getElementById('adminLoginOverlay').style.display = 'flex';
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('adminLoginErr').style.display = 'none';
+  setTimeout(() => document.getElementById('adminUser').focus(), 100);
+}
+function closeAdminLogin() {
+  document.getElementById('adminLoginOverlay').style.display = 'none';
+}
+function doAdminLogin() {
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value.trim();
+  if (u === ADMIN_CREDS.user && p === ADMIN_CREDS.pass) {
+    closeAdminLogin();
+    openAdminPanel();
+  } else {
+    document.getElementById('adminLoginErr').style.display = 'block';
+    document.getElementById('adminPass').value = '';
+    document.getElementById('adminPass').focus();
+  }
+}
+function openAdminPanel() {
+  const panel = document.getElementById('adminPanel');
+  panel.classList.add('open');
+  adminNav('dashboard');
+  initAdminFilters();
+  updateAdminStats();
+}
+function closeAdminPanel() {
+  document.getElementById('adminPanel').classList.remove('open');
+}
+function adminNav(sec) {
+  document.querySelectorAll('.admin-nav-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active'));
+  const items = document.querySelectorAll('.admin-nav-item');
+  const secs = ['dashboard','motors','brands'];
+  const idx = secs.indexOf(sec);
+  if (idx >= 0) items[idx].classList.add('active');
+  document.getElementById('sec-' + sec).classList.add('active');
+  if (sec === 'motors') renderAdminMotors();
+  if (sec === 'brands') renderAdminBrands();
+}
+function updateAdminStats() {
+  document.getElementById('dc-motors').textContent = MODELS.length;
+  document.getElementById('dc-brands').textContent = BRANDS.length;
+  document.getElementById('dc-cats').textContent = [...new Set(MODELS.map(m=>m.cat))].length;
+  document.getElementById('dc-maxpow').textContent = Math.max(...MODELS.map(m=>m.power));
+  document.getElementById('sb-mcount').textContent = MODELS.length;
+  document.getElementById('sb-bcount').textContent = BRANDS.length;
+}
+function initAdminFilters() {
+  const cats = [...new Set(MODELS.map(m=>m.cat))].sort();
+  const catSel = document.getElementById('adminMotorCat');
+  catSel.innerHTML = '<option value="">Tüm Kategoriler</option>';
+  cats.forEach(c => { const o = document.createElement('option'); o.value=c; o.textContent=c; catSel.appendChild(o); });
+  const brands = BRANDS.map(b=>b.name).sort();
+  const bSel = document.getElementById('adminMotorBrand');
+  bSel.innerHTML = '<option value="">Tüm Markalar</option>';
+  brands.forEach(b => { const o = document.createElement('option'); o.value=b; o.textContent=b; bSel.appendChild(o); });
+  const origins = [...new Set(BRANDS.map(b=>b.origin))].sort();
+  const oSel = document.getElementById('adminBrandOrigin');
+  oSel.innerHTML = '<option value="">Tüm Ülkeler</option>';
+  origins.forEach(o => { const opt = document.createElement('option'); opt.value=o; opt.textContent=o.charAt(0).toUpperCase()+o.slice(1); oSel.appendChild(opt); });
+  // mf-brand
+  const mfb = document.getElementById('mf-brand');
+  mfb.innerHTML = '';
+  BRANDS.forEach(b => { const o = document.createElement('option'); o.value=b.name; o.textContent=b.name; mfb.appendChild(o); });
+}
+function renderAdminMotors() {
+  const q = (document.getElementById('adminMotorSearch').value||'').toLowerCase();
+  const cat = document.getElementById('adminMotorCat').value;
+  const brand = document.getElementById('adminMotorBrand').value;
+  let list = MODELS.filter(m => {
+    if (q && !m.name.toLowerCase().includes(q) && !m.brand.toLowerCase().includes(q)) return false;
+    if (cat && m.cat !== cat) return false;
+    if (brand && m.brand !== brand) return false;
+    return true;
+  });
+  document.getElementById('adminMotorCount').textContent = list.length + ' motor listeleniyor';
+  document.getElementById('adminMotorTbody').innerHTML = list.map((m,i) => {
+    const realIdx = MODELS.indexOf(m);
+    return `<tr>
+      <td><div class="td-brand">${m.brand}</div><div class="td-name">${m.name}</div></td>
+      <td><span class="cat-tag">${m.cat}</span></td>
+      <td>${m.year}</td>
+      <td>${m.power > 0 ? m.power + ' HP' : 'Elektrik'}</td>
+      <td>${m.cc > 0 ? m.cc + ' cc' : '—'}</td>
+      <td>${m.weight} kg</td>
+      <td>
+        <button class="tbl-edit-btn" onclick="openMotorModal(${realIdx})">✏️ Düzenle</button>
+        <button class="tbl-del-btn" onclick="confirmDeleteMotor(${realIdx})">🗑️ Sil</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function renderAdminBrands() {
+  const q = (document.getElementById('adminBrandSearch').value||'').toLowerCase();
+  const origin = document.getElementById('adminBrandOrigin').value;
+  let list = BRANDS.filter(b => {
+    if (q && !b.name.toLowerCase().includes(q) && !b.country.toLowerCase().includes(q)) return false;
+    if (origin && b.origin !== origin) return false;
+    return true;
+  });
+  document.getElementById('adminBrandCount').textContent = list.length + ' marka listeleniyor';
+  document.getElementById('adminBrandTbody').innerHTML = list.map(b => {
+    const realIdx = BRANDS.indexOf(b);
+    const mcount = MODELS.filter(m=>m.brand===b.name).length;
+    return `<tr>
+      <td><span style="font-size:18px;margin-right:8px;">${b.flag}</span><strong style="color:#F0E8D8;">${b.name}</strong></td>
+      <td>${b.country}</td>
+      <td>${b.founded}</td>
+      <td><span class="cat-tag">${mcount} model</span></td>
+      <td>
+        <button class="tbl-edit-btn" onclick="openBrandModal(${realIdx})">✏️ Düzenle</button>
+        <button class="tbl-del-btn" onclick="confirmDeleteBrand(${realIdx})">🗑️ Sil</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ----- Motor Modal -----
+function openMotorModal(idx) {
+  adminEditMotorIdx = idx;
+  const title = document.getElementById('motorModalTitle');
+  // Populate brand select
+  const mfb = document.getElementById('mf-brand');
+  mfb.innerHTML = '';
+  BRANDS.forEach(b => { const o = document.createElement('option'); o.value=b.name; o.textContent=b.name; mfb.appendChild(o); });
+  if (idx === null) {
+    title.textContent = '+ Yeni Motor Ekle';
+    ['mf-name','mf-year','mf-power','mf-torque','mf-cc','mf-cylinders','mf-weight','mf-topspeed','mf-transmission'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('mf-year').value = 2024;
+  } else {
+    const m = MODELS[idx];
+    title.textContent = '✏️ Motor Düzenle: ' + m.name;
+    document.getElementById('mf-brand').value = m.brand;
+    document.getElementById('mf-name').value = m.name;
+    document.getElementById('mf-year').value = m.year;
+    document.getElementById('mf-cat').value = m.cat;
+    document.getElementById('mf-power').value = m.power;
+    document.getElementById('mf-torque').value = m.torque;
+    document.getElementById('mf-cc').value = m.cc;
+    document.getElementById('mf-cylinders').value = m.cylinders;
+    document.getElementById('mf-weight').value = m.weight;
+    document.getElementById('mf-topspeed').value = m.topSpeed;
+    document.getElementById('mf-cooling').value = m.cooling;
+    document.getElementById('mf-transmission').value = m.transmission;
+  }
+  document.getElementById('motorModal').style.display = 'flex';
+}
+function saveMotor() {
+  const name = document.getElementById('mf-name').value.trim();
+  const brand = document.getElementById('mf-brand').value;
+  if (!name || !brand) { showToast('Model adı ve marka zorunlu!', true); return; }
+  const m = {
+    brand, name,
+    year: parseInt(document.getElementById('mf-year').value)||2024,
+    cat: document.getElementById('mf-cat').value,
+    power: parseInt(document.getElementById('mf-power').value)||0,
+    torque: parseInt(document.getElementById('mf-torque').value)||0,
+    cc: parseInt(document.getElementById('mf-cc').value)||0,
+    cylinders: parseInt(document.getElementById('mf-cylinders').value)||0,
+    weight: parseInt(document.getElementById('mf-weight').value)||0,
+    topSpeed: parseInt(document.getElementById('mf-topspeed').value)||0,
+    cooling: document.getElementById('mf-cooling').value,
+    transmission: document.getElementById('mf-transmission').value||'6 İleri',
+  };
+  if (adminEditMotorIdx === null) {
+    MODELS.push(m);
+    addActivity('', brand + ' ' + name + ' eklendi.');
+    showToast('✅ ' + name + ' başarıyla eklendi!');
+  } else {
+    MODELS[adminEditMotorIdx] = m;
+    addActivity('upd', brand + ' ' + name + ' güncellendi.');
+    showToast('✅ ' + name + ' güncellendi!');
+  }
+  saveData();
+  closeModal('motorModal');
+  renderAdminMotors();
+  updateAdminStats();
+  if (typeof renderHome === 'function') renderHome();
+}
+
+// ----- Brand Modal -----
+function openBrandModal(idx) {
+  adminEditBrandIdx = idx;
+  const title = document.getElementById('brandModalTitle');
+  if (idx === null) {
+    title.textContent = '+ Yeni Marka Ekle';
+    ['bf-name','bf-flag','bf-country','bf-origin','bf-founded','bf-desc'].forEach(id => document.getElementById(id).value = '');
+  } else {
+    const b = BRANDS[idx];
+    title.textContent = '✏️ Marka Düzenle: ' + b.name;
+    document.getElementById('bf-name').value = b.name;
+    document.getElementById('bf-flag').value = b.flag;
+    document.getElementById('bf-country').value = b.country;
+    document.getElementById('bf-origin').value = b.origin;
+    document.getElementById('bf-founded').value = b.founded;
+    document.getElementById('bf-desc').value = b.desc;
+  }
+  document.getElementById('brandModal').style.display = 'flex';
+}
+function saveBrand() {
+  const name = document.getElementById('bf-name').value.trim();
+  if (!name) { showToast('Marka adı zorunlu!', true); return; }
+  const b = {
+    name,
+    flag: document.getElementById('bf-flag').value||'🏍️',
+    country: document.getElementById('bf-country').value||'',
+    origin: document.getElementById('bf-origin').value.toLowerCase()||'',
+    founded: parseInt(document.getElementById('bf-founded').value)||2000,
+    desc: document.getElementById('bf-desc').value||'',
+  };
+  if (adminEditBrandIdx === null) {
+    BRANDS.push(b);
+    addActivity('', name + ' markası eklendi.');
+    showToast('✅ ' + name + ' markası eklendi!');
+  } else {
+    BRANDS[adminEditBrandIdx] = b;
+    addActivity('upd', name + ' markası güncellendi.');
+    showToast('✅ ' + name + ' güncellendi!');
+  }
+  saveData();
+  closeModal('brandModal');
+  renderAdminBrands();
+  updateAdminStats();
+  if (typeof renderHome === 'function') renderHome();
+}
+
+// ----- Delete -----
+function confirmDeleteMotor(idx) {
+  const m = MODELS[idx];
+  document.getElementById('confirmText').textContent = m.brand + ' ' + m.name + ' kalıcı olarak silinecek.';
+  document.getElementById('confirmDelBtn').onclick = () => {
+    addActivity('del', m.brand + ' ' + m.name + ' silindi.');
+    MODELS.splice(idx, 1);
+    saveData();
+    closeModal('confirmModal');
+    renderAdminMotors();
+    updateAdminStats();
+    showToast('🗑️ ' + m.name + ' silindi.');
+    if (typeof renderHome === 'function') renderHome();
+  };
+  document.getElementById('confirmModal').style.display = 'flex';
+}
+function confirmDeleteBrand(idx) {
+  const b = BRANDS[idx];
+  const mcount = MODELS.filter(m=>m.brand===b.name).length;
+  document.getElementById('confirmText').textContent = b.name + ' markası ve bağlı ' + mcount + ' model silinecek. Bu işlem geri alınamaz.';
+  document.getElementById('confirmDelBtn').onclick = () => {
+    // Remove brand models too
+    for (let i = MODELS.length-1; i >= 0; i--) { if (MODELS[i].brand === b.name) MODELS.splice(i,1); }
+    addActivity('del', b.name + ' markası ve modelleri silindi.');
+    BRANDS.splice(idx, 1);
+    saveData();
+    closeModal('confirmModal');
+    renderAdminBrands();
+    updateAdminStats();
+    initAdminFilters();
+    showToast('🗑️ ' + b.name + ' silindi.');
+    if (typeof renderHome === 'function') renderHome();
+  };
+  document.getElementById('confirmModal').style.display = 'flex';
+}
+
+// ----- Helpers -----
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+function showToast(msg, isErr) {
+  const t = document.getElementById('toastMsg');
+  t.textContent = msg;
+  t.className = 'toast-msg' + (isErr ? ' err' : '');
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2800);
+}
+function addActivity(type, text) {
+  const log = document.getElementById('activity-log');
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  const item = document.createElement('div');
+  item.className = 'activity-item';
+  const dotClass = type === 'del' ? 'del' : type === 'upd' ? 'upd' : '';
+  item.innerHTML = `<div class="activity-dot ${dotClass}"></div><div><div class="activity-text">${text}</div><div class="activity-time">${time}</div></div>`;
+  log.insertBefore(item, log.firstChild);
+  if (log.children.length > 10) log.removeChild(log.lastChild);
+}
+// Close modal on overlay click
+['motorModal','brandModal','confirmModal','adminLoginOverlay'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) { this.style.display = 'none'; }
+  });
+});
+
+
+function resetToDefaults() {
+  if (!confirm('Tüm değişiklikler silinecek ve veriler varsayılan haline getirilecek. Emin misin?')) return;
+  localStorage.removeItem('motomert_models_v1');
+  localStorage.removeItem('motomert_brands_v1');
+  showToast('↩ Veriler sıfırlandı. Sayfa yenileniyor...');
+  setTimeout(() => location.reload(), 1200);
+}
+
+renderHome();
+</script>
